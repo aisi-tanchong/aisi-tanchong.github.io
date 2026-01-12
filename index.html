@@ -3,555 +3,360 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AISI Protocol v0.1</title>
+    <title>AISI服务互联网协议 v0.1</title>
+    <!-- 本地的 Markdown 样式 -->
     <style>
-        /* GitHub Markdown 样式核心 (精简版) */
-        body {
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 45px;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            font-size: 16px;
             line-height: 1.6;
+            word-wrap: break-word;
             color: #24292e;
             background-color: #fff;
-            margin: 0;
-            padding: 20px;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
         }
-        .markdown-body {
-            font-size: 16px;
-        }
-        .markdown-body h1, .markdown-body h2, .markdown-body h3 {
-            border-bottom: 1px solid #eaecef;
-            padding-bottom: 0.3em;
-            margin-top: 24px;
-            margin-bottom: 16px;
-            font-weight: 600;
-            line-height: 1.25;
-        }
+        .markdown-body a { color: #0366d6; text-decoration: none; }
+        .markdown-body a:hover { text-decoration: underline; }
+        .markdown-body h1, .markdown-body h2 { padding-bottom: 0.3em; border-bottom: 1px solid #eaecef; margin-top: 24px; margin-bottom: 16px; }
         .markdown-body h1 { font-size: 2em; }
         .markdown-body h2 { font-size: 1.5em; }
-        .markdown-body h3 { font-size: 1.25em; }
-        .markdown-body p { margin-top: 0; margin-bottom: 16px; }
-        .markdown-body ul, .markdown-body ol { padding-left: 2em; }
-        .markdown-body li { margin-top: 0.25em; }
-        .markdown-body code {
-            padding: 0.2em 0.4em;
-            margin: 0;
-            font-size: 85%;
-            background-color: rgba(27,31,35,0.05);
-            border-radius: 3px;
-            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-        }
-        .markdown-body pre {
-            padding: 16px;
-            overflow: auto;
-            font-size: 85%;
-            line-height: 1.45;
-            background-color: #f6f8fa;
-            border-radius: 3px;
-        }
-        .markdown-body pre code {
-            padding: 0;
-            background-color: transparent;
-            font-size: 100%;
-        }
-        .markdown-body table {
-            border-spacing: 0;
-            border-collapse: collapse;
-            margin-top: 0;
-            margin-bottom: 16px;
-        }
-        .markdown-body table tr { background-color: #fff; border-top: 1px solid #c6cbd1; }
+        .markdown-body pre { background-color: #f6f8fa; padding: 16px; overflow: auto; border-radius: 6px; }
+        .markdown-body code { font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace; padding: 0.2em 0.4em; margin: 0; background-color: rgba(27,31,35,0.05); border-radius: 3px; }
+        .markdown-body pre code { padding: 0; background-color: transparent; }
+        .markdown-body table { border-spacing: 0; border-collapse: collapse; display: block; width: 100%; overflow: auto; }
         .markdown-body table th, .markdown-body table td { padding: 6px 13px; border: 1px solid #dfe2e5; }
-        .markdown-body table th { font-weight: 600; }
-        .markdown-body blockquote {
-            padding: 0 1em;
-            color: #6a737d;
-            border-left: 0.25em solid #dfe2e5;
-            margin: 0 0 16px 0;
-        }
-        .toc {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #f6f8fa;
-            border: 1px solid #e1e4e8;
-            border-radius: 5px;
-            padding: 15px;
-            max-width: 300px;
-            max-height: 80vh;
-            overflow-y: auto;
-            font-size: 14px;
-        }
-        .toc ul { padding-left: 20px; list-style-type: none; }
-        .toc a { text-decoration: none; color: #0366d6; }
-        .toc a:hover { text-decoration: underline; }
-        @media (max-width: 1200px) {
-            .toc { position: static; max-width: 100%; margin-bottom: 30px; }
-        }
+        .markdown-body table th { font-weight: 600; background-color: #f6f8fa; }
+        .markdown-body img { max-width: 100%; box-sizing: content-box; }
+        .markdown-body blockquote { padding: 0 1em; color: #6a737d; border-left: 0.25em solid #dfe2e5; margin: 0; }
+        /* 主页面布局样式 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: #f8f9fa; color: #333; line-height: 1.6; display: flex; min-height: 100vh; }
+        .sidebar { width: 260px; background: #fff; border-right: 1px solid #e1e4e8; padding: 2rem 1.5rem; position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; }
+        .sidebar h2 { color: #0366d6; margin-bottom: 1.5rem; font-size: 1.5rem; }
+        .sidebar nav ul { list-style: none; }
+        .sidebar nav li { margin-bottom: 0.8rem; }
+        .sidebar nav a { color: #586069; text-decoration: none; display: block; padding: 0.5rem 1rem; border-radius: 6px; transition: background 0.2s, color 0.2s; }
+        .sidebar nav a:hover, .sidebar nav a.active { background: #0366d6; color: white; }
+        .content { flex: 1; padding: 3rem 4rem; overflow-y: auto; max-width: 1000px; }
+        .header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid #e1e4e8; }
+        .version-badge { background: #0366d6; color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.9rem; font-weight: bold; }
+        @media (max-width: 768px) { body { flex-direction: column; } .sidebar { width: 100%; height: auto; position: relative; } .content { padding: 2rem; } }
     </style>
-    <!-- 代码高亮库 (Prism.js) -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
 </head>
 <body>
-    <nav class="toc" id="table-of-contents">
-        <!-- 目录将由JavaScript动态生成 -->
-    </nav>
+    <!-- 左侧导航栏 -->
+    <aside class="sidebar">
+        <h2>AISI Protocol</h2>
+        <nav>
+            <ul>
+                <li><a href="#摘要" class="active">1. 摘要</a></li>
+                <li><a href="#愿景与原则">2. 愿景与原则</a></li>
+                <li><a href="#核心概念定义">3. 核心概念定义</a></li>
+                <li><a href="#协议数据架构">4. 协议数据架构</a></li>
+                <li><a href="#服务发现与调用接口参考性">5. 服务发现与调用接口</a></li>
+                <li><a href="#附录">6. 附录</a></li>
+                <li><hr style="border-color:#e1e4e8; margin: 1.5rem 0;"></li>
+                <li><a href="https://gitee.com/你的用户名/aisi-protocol" target="_blank">🚀 访问 Gitee 仓库</a></li>
+                <li><a href="https://gitee.com/你的用户名/aisi-protocol/issues" target="_blank">💡 参与讨论 (Issues)</a></li>
+            </ul>
+        </nav>
+    </aside>
 
-    <article class="markdown-body">
-        <h1 id="摘要">1. 摘要</h1>
-<p>AISI（Atomized Intelligent Service Interface，原子化智能服务接口）协议旨在为AI智能体（Agent）与外部服务（Service）之间的交互提供一套标准化、模块化、可扩展的接口规范。它将传统的“复合型”API（如OpenAPI）拆解为更细粒度的“原子化”操作，使智能体能够以统一的、声明式的方式发现、理解、组合和调用服务能力，从而构建出更灵活、更强大的自动化工作流。</p>
-<p>本协议包含四个核心组成部分：</p>
-<ol>
-<li><strong>服务描述规范</strong>：定义服务如何以结构化的JSON Schema描述其能力（即“原子操作”）。</li>
-<li><strong>统一调用接口</strong>：规定智能体调用服务的标准化HTTP/REST端点、请求/响应格式和错误处理机制。</li>
-<li><strong>动态组合机制</strong>：允许智能体根据目标，将多个原子操作按逻辑组合成一个可执行的工作流（DAG）。</li>
-<li><strong>状态与生命周期管理</strong>：为长时间运行的操作提供状态查询、进度跟踪和生命周期管理能力。</li>
-</ol>
-<p>通过AISI协议，服务提供者可以轻松地将其功能暴露给任意兼容的AI智能体，而智能体开发者则可以像调用本地函数一样，无缝集成和编排外部服务，无需为每个服务编写特定的适配代码。</p>
-<h1 id="动机与目标">2. 动机与目标</h1>
-<h2 id="21-为什么需要原子化">2.1 为什么需要原子化？</h2>
-<p>当前，AI智能体在集成外部服务时面临以下挑战：</p>
-<ul>
-<li><strong>接口异构性</strong>：不同服务的API设计风格、认证方式、数据格式各异，智能体需要为每个服务编写特定的解析和调用逻辑。</li>
-<li><strong>能力过载</strong>：传统的“复合型”API（如“创建订单并支付”）将多个业务步骤捆绑在一起，智能体难以理解其内部逻辑，也无法灵活复用其中的子步骤。</li>
-<li><strong>组合困难</strong>：智能体难以自动将不同服务的功能组合起来完成复杂任务，缺乏统一的编排标准。</li>
-<li><strong>状态管理缺失</strong>：对于异步或长时间运行的操作，缺乏标准的状态查询和进度反馈机制。</li>
-</ul>
-<p>AISI协议通过“原子化”来解决这些问题：</p>
-<ul>
-<li><strong>统一描述</strong>：所有服务能力都用一致的JSON Schema描述，智能体可以“理解”每个操作的功能、输入和输出。</li>
-<li><strong>细粒度控制</strong>：每个“原子操作”只做一件事（如“验证用户”、“计算价格”、“调用支付网关”），智能体可以按需组合。</li>
-<li><strong>声明式组合</strong>：智能体可以通过声明式的DAG（有向无环图）来组合多个原子操作，形成可执行的工作流。</li>
-<li><strong>内置状态管理</strong>：协议为异步操作定义了标准的状态模型和查询接口。</li>
-</ul>
-<h2 id="22-设计目标">2.2 设计目标</h2>
-<ol>
-<li><strong>标准化</strong>：为AI-服务交互提供一套业界通用的标准接口，降低集成成本。</li>
-<li><strong>模块化</strong>：服务能力应拆分为独立、可复用的原子操作。</li>
-<li><strong>可发现性</strong>：智能体应能自动发现服务的可用操作及其详细规格。</li>
-<li><strong>可组合性</strong>：智能体应能根据任务目标，动态组合多个原子操作形成工作流。</li>
-<li><strong>可观测性</strong>：提供标准化的状态跟踪、日志和错误报告机制。</li>
-<li><strong>向后兼容</strong>：协议应易于扩展，新版本兼容旧版本的核心交互模式。</li>
-</ol>
-<h1 id="核心概念">3. 核心概念</h1>
-<h2 id="31-原子操作（atomic-operation）">3.1 原子操作（Atomic Operation）</h2>
-<p>原子操作是AISI协议中最基本的执行单元。它代表一个独立的、不可再分（在业务逻辑层面）的服务功能。每个原子操作必须明确声明：</p>
-<ul>
-<li><code>id</code>：唯一标识符。</li>
-<li><code>name</code>：人类可读的名称。</li>
-<li><code>description</code>：功能描述。</li>
-<li><code>input_schema</code>：输入参数的JSON Schema。</li>
-<li><code>output_schema</code>：输出结果的JSON Schema。</li>
-<li><code>is_async</code>：是否是异步操作。</li>
-</ul>
-<p><strong>示例：</strong> 一个“发送邮件”的原子操作，其输入是收件人、主题、正文，输出是发送成功与否的状态。</p>
-<h2 id="32-服务（service）">3.2 服务（Service）</h2>
-<p>服务是一组相关原子操作的集合，由一个服务提供者（Service Provider）实现和托管。服务通过一个标准的“服务描述”端点（通常是 <code>/.well-known/aisi.json</code>）来暴露其所有原子操作的定义。</p>
-<p>一个服务描述至少包含：</p>
-<ul>
-<li><code>service_id</code>：服务唯一标识。</li>
-<li><code>name</code>：服务名称。</li>
-<li><code>version</code>：协议版本（如<code>"aisi/0.1"</code>）。</li>
-<li><code>operations</code>：该服务提供的原子操作列表。</li>
-<li><code>base_url</code>：服务调用的基础URL。</li>
-</ul>
-<h2 id="33-工作流（workflow）">3.3 工作流（Workflow）</h2>
-<p>工作流是由智能体动态组合多个原子操作形成的<strong>有向无环图（DAG）</strong>。每个节点代表一个原子操作，边代表数据依赖关系（一个节点的输出可以作为另一个节点的输入）。</p>
-<p>工作流本身也是一个可执行单元，可以作为一个“复合操作”被调用。AISI协议定义了工作流的描述格式（基于JSON）和标准的执行引擎接口。</p>
-<h2 id="34-智能体（agent）">3.4 智能体（Agent）</h2>
-<p>智能体是AISI协议的<strong>消费者</strong>，它能够：</p>
-<ol>
-<li><strong>发现服务</strong>：通过服务描述端点获取可用操作。</li>
-<li><strong>理解操作</strong>：解析<code>input_schema</code>和<code>output_schema</code>，理解如何调用。</li>
-<li><strong>组合工作流</strong>：根据任务目标，将多个原子操作组合成DAG。</li>
-<li><strong>调用执行</strong>：通过统一的调用接口触发操作或工作流的执行。</li>
-<li><strong>管理状态</strong>：监控异步操作的执行状态，处理结果或错误。</li>
-</ol>
-<h1 id="协议规范">4. 协议规范</h1>
-<h2 id="41-服务发现与描述">4.1 服务发现与描述</h2>
-<p>服务必须提供以下标准端点，供智能体发现其能力：</p>
-<p><strong>GET <code>/.well-known/aisi.json</code></strong></p>
-<p>响应体必须是一个符合以下JSON Schema的“服务描述”对象：</p>
-<pre class="language-json"><code>{
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "AISI Service Description",
-  "type": "object",
-  "required": ["service_id", "name", "version", "base_url", "operations"],
-  "properties": {
-    "service_id": {
-      "type": "string",
-      "description": "服务的全局唯一标识符（建议使用反向域名格式，如 com.example.mail）"
-    },
-    "name": {
-      "type": "string",
-      "description": "人类可读的服务名称"
-    },
-    "description": {
-      "type": "string",
-      "description": "服务的详细描述（可选）"
-    },
-    "version": {
-      "type": "string",
-      "pattern": "^aisi/\\d+\\.\\d+$",
-      "description": "遵循的AISI协议版本，格式为 'aisi/主版本.次版本'"
-    },
-    "base_url": {
-      "type": "string",
-      "format": "uri",
-      "description": "所有操作调用的基础URL（必须以 https 开头）"
-    },
-    "operations": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/atomic_operation"
-      },
-      "description": "该服务提供的原子操作列表"
-    }
-  },
-  "definitions": {
-    "atomic_operation": {
-      "type": "object",
-      "required": ["id", "name", "description", "input_schema", "output_schema"],
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "在服务内唯一的操作标识符（如 send_email）"
-        },
-        "name": {
-          "type": "string",
-          "description": "人类可读的操作名称"
-        },
-        "description": {
-          "type": "string",
-          "description": "操作的详细描述，说明其功能、用途和限制"
-        },
-        "input_schema": {
-          "type": "object",
-          "description": "输入参数的JSON Schema（遵循 Draft-07）。必须包含一个 'type' 为 'object' 的根节点。"
-        },
-        "output_schema": {
-          "type": "object",
-          "description": "输出结果的JSON Schema（遵循 Draft-07）。对于异步操作，这表示最终结果的格式。"
-        },
-        "is_async": {
-          "type": "boolean",
-          "default": false,
-          "description": "是否为异步操作。异步操作会立即返回一个任务ID，需要通过 /tasks/{task_id} 轮询结果。"
-        },
-        "timeout_seconds": {
-          "type": "integer",
-          "minimum": 1,
-          "default": 30,
-          "description": "操作的超时时间（秒），仅对同步操作有效。异步操作应由服务方自行控制超时。"
-        }
-      }
-    }
-  }
+    <!-- 主内容区 -->
+    <main class="content">
+        <div class="header-actions">
+            <h1 style="border: none; margin: 0; padding: 0;">AISI 服务描述协议 v0.1</h1>
+            <span class="version-badge">Alpha 草案</span>
+        </div>
+
+        <!-- 协议正文粘贴位置 -->
+        <article class="markdown-body">
+        # AISI服务描述协议（Atomized Intelligent Service Interface）
+**版本：** 0.1 Alpha（草稿）
+**状态：** 草案，用于公开讨论
+**作者：** [谈翀]
+**发布日期：** 2026年1月10日
+---
+ 
+## 1. 摘要
+ 
+AISI（Atomized Intelligent Service Interface，原子化智能服务接口）协议旨在**为人工智能体（AI Agent）与真实世界服务之间，建立一套机器可读、语义无歧义的标准化描述与交互接口**。其核心目标是将任意复杂的商业或生活服务，拆解、描述为最小可执行单元——“原子服务”，使智能体能够像人类理解菜单一样，精准发现、推荐并调用这些服务。
+ 
+本协议定义了服务提供方如何描述其“原子服务”，以及智能体如何发现、理解与调用这些服务的**基础数据框架与交互范式**。它不依赖任何特定平台，旨在成为开放、中立的服务互联网“基础语法”。
+ 
+## 2. 愿景与原则
+ 
+### 2.1 愿景
+构建一个**以用户意图为中心、由智能体作为主要交互界面的下一代服务互联网**。在这个网络中，服务如同信息一样自由、高效地流动，用户通过自然语言即可无缝获取全球服务。
+ 
+### 2.2 核心原则
+1.  **机器可读性优先**：描述格式的首要目标是确保AI能无歧义地理解。
+2.  **原子化**：服务应被描述为最小、不可再分且可独立交付的单元。
+3.  **语义标准化**：对关键概念（如时间、地点、价格）采用公认的标准格式。
+4.  **平台中立与开放性**：协议本身不绑定任何特定商业平台，鼓励广泛实现。
+5.  **渐进演化**：协议版本应保持向后兼容，并通过社区共识持续演进。
+ 
+## 3. 核心概念定义
+ 
+*   **原子服务 (Atomic Service)**：能够被独立提供、交付并完成一次完整价值交换的最小服务单元。例如：“一杯外送至指定地址的350毫升冰美式咖啡”是一个原子服务，而“开一家咖啡馆”不是。
+*   **服务提供方 (Provider)**：发布并履行原子服务的实体或个人。
+*   **智能体 (AI Agent)**：代表用户，能够理解意图、发现并调用原子服务的软件实体。
+*   **服务描述 (Service Description)**：按照本协议格式编写的，对一个原子服务的完整定义文件。
+*   **服务注册表 (Service Registry)**：存储并可被查询的服务描述集合，可以是中心化索引或去中心化网络。
+ 
+## 4. 协议数据架构
+ 
+一个完整的AISI服务描述是一个JSON对象，其根结构如下：
+ 
+```json
+{
+  "aisi_version": "0.1",
+  "metadata": {...},
+  "service_unit": {...},
+  "atomic_description": {...},
+  "fulfillment_terms": {...},
+  "provider_info": {...}
 }
-</code></pre>
-<p><strong>示例响应：</strong></p>
-<pre class="language-json"><code>{
-  "service_id": "com.example.mail",
-  "name": "示例邮件服务",
-  "description": "提供发送电子邮件的原子化服务。",
-  "version": "aisi/0.1",
-  "base_url": "https://mail-service.example.com",
-  "operations": [
-    {
-      "id": "send_email",
-      "name": "发送邮件",
-      "description": "向指定的收件人发送一封电子邮件。",
-      "input_schema": {
-        "type": "object",
-        "required": ["to", "subject", "body"],
-        "properties": {
-          "to": {
-            "type": "array",
-            "items": { "type": "string", "format": "email" },
-            "description": "收件人邮箱地址列表"
-          },
-          "subject": { "type": "string" },
-          "body": { "type": "string", "contentMediaType": "text/html" }
-        }
-      },
-      "output_schema": {
-        "type": "object",
-        "properties": {
-          "message_id": { "type": "string" },
-          "status": { "type": "string", "enum": ["sent", "queued"] }
-        }
-      },
-      "is_async": false,
-      "timeout_seconds": 10
-    }
+```
+ 
+### 4.1 `metadata` - 元数据
+用于标识和追踪服务描述本身。
+| 字段 | 类型 | 必填 | 描述 | 示例 |
+| :--- | :--- | :--- | :--- | :--- |
+| `service_id` | 字符串 | 是 | 服务的全局唯一标识符。推荐格式：`provider_domain:service_type:unique_id` | `"coffee.example.com:latte:basic_01"` |
+| `language` | 字符串 | 是 | 描述文本使用的语言代码。 | `"zh-CN"` |
+| `created_at` | 字符串 | 是 | 描述创建时间（ISO 8601）。 | `"2024-06-01T10:00:00+08:00"` |
+| `updated_at` | 字符串 | 是 | 描述最后更新时间（ISO 8601）。 | `"2024-06-10T15:30:00+08:00"` |
+| `status` | 字符串 | 是 | 服务状态。枚举：`"draft"`, `"published"`, `"suspended"`, `"archived"` | `"published"` |
+ 
+### 4.2 `service_unit` - 服务单元
+对人类和智能体展示的核心信息。
+| 字段 | 类型 | 必填 | 描述 | 示例 |
+| :--- | :--- | :--- | :--- | :--- |
+| `name` | 字符串 | 是 | 服务的简洁、人类可读名称。 | `"经典拿铁咖啡（外送）"` |
+| `category` | 字符串数组 | 是 | 服务分类标签，用于高效检索。 | `["餐饮", "咖啡", "外送"]` |
+| `human_description` | 字符串 | 是 | 面向人类的详细服务说明。 | `"一款由意式浓缩咖啡与蒸煮牛奶调和而成的经典咖啡饮品，口感顺滑。"` |
+| `tags` | 字符串数组 | 否 | 额外的关键词标签。 | `["新品", "招牌", "提神"]` |
+ 
+### 4.3 `atomic_description` - 原子化描述（协议核心）
+**从机器视角，无歧义地定义服务的“输入”与“输出”。**
+| 字段 | 类型 | 必填 | 描述 | 示例 |
+| :--- | :--- | :--- | :--- | :--- |
+| `input` | 对象 | 是 | **执行此服务所需的输入参数**。 | 见下文 `input` 结构详述。 |
+| `output` | 对象 | 是 | **服务方承诺交付的确定结果**。 | 见下文 `output` 结构详述。 |
+ 
+#### 4.3.1 `input` 对象结构
+定义用户或智能体需要提供什么。
+| 字段 | 类型 | 必填 | 描述 | 示例 |
+| :--- | :--- | :--- | :--- | :--- |
+| `parameters` | 数组 | 否 | 可选的定制化参数列表。 | 见下文参数表示例。 |
+| `constraints` | 对象 | 否 | 执行服务的必要前提条件。 | `{"delivery_address": {"required": true}}` |
+ 
+**`parameters` 数组中的参数项示例：**
+```json
+{
+  "name": "杯型",
+  "key": "size",
+  "type": "select",
+  "required": true,
+  "options": [
+    {"value": "medium", "label": "中杯 (350ml)", "price_effect": 0},
+    {"value": "large", "label": "大杯 (500ml)", "price_effect": 5}
   ]
 }
-</code></pre>
-<h2 id="42-统一调用接口">4.2 统一调用接口</h2>
-<h3 id="421-调用原子操作">4.2.1 调用原子操作</h3>
-<p>智能体通过向服务的 <code>{base_url}/v1/operations/{operation_id}/execute</code> 端点发送 POST 请求来调用一个原子操作。</p>
-<p><strong>请求</strong></p>
-<ul>
-<li><strong>方法</strong>：<code>POST</code></li>
-<li><strong>路径</strong>：<code>/v1/operations/{operation_id}/execute</code></li>
-<li><strong>Headers</strong>：<code>Content-Type: application/json</code></li>
-<li><strong>Body</strong>：一个JSON对象，其结构必须严格符合该操作 <code>input_schema</code> 的定义。</li>
-</ul>
-<p><strong>响应（同步操作）</strong></p>
-<ul>
-<li><strong>HTTP 200 OK</strong>：操作成功执行。
-<ul>
-<li><strong>Body</strong>：一个JSON对象，其结构符合该操作的 <code>output_schema</code>。</li>
-</ul>
-</li>
-<li><strong>HTTP 202 Accepted</strong>：操作是异步的，已接受处理。
-<ul>
-<li><strong>Body</strong>：<code>{ "task_id": "task_123456", "status_url": "https://.../v1/tasks/task_123456" }</code></li>
-<li>智能体应通过 <code>status_url</code> 轮询任务状态。</li>
-</ul>
-</li>
-<li><strong>HTTP 4xx</strong>：客户端错误（如输入验证失败）。
-<ul>
-<li><strong>Body</strong>：标准错误响应格式（见4.4节）。</li>
-</ul>
-</li>
-<li><strong>HTTP 5xx</strong>：服务端错误。</li>
-</ul>
-<p><strong>示例：调用同步的“发送邮件”操作</strong></p>
-<p><em>请求</em></p>
-<pre class="language-http"><code>POST /v1/operations/send_email/execute HTTP/1.1
-Host: mail-service.example.com
-Content-Type: application/json
-
+```
+ 
+#### 4.3.2 `output` 对象结构
+定义服务方承诺交付什么。
+| 字段 | 类型 | 必填 | 描述 | 示例 |
+| :--- | :--- | :--- | :--- | :--- |
+| `core_item` | 字符串 | 是 | 交付物的最核心描述。 | `"1杯拿铁咖啡"` |
+| `specifications` | 对象 | 否 | 具体的规格属性。 | `{"volume_ml": 350, "temperature": "热"}` |
+| `material_list` | 字符串数组 | 否 | 主要材料或成分列表。 | `["意式浓缩咖啡", "蒸煮牛奶"]` |
+ 
+### 4.4 `fulfillment_terms` - 履约条款
+定义服务如何、何时、何地被交付。
+| 字段 | 类型 | 必填 | 描述 | 示例 |
+| :--- | :--- | :--- | :--- | :--- |
+| `pricing` | 对象 | 是 | 价格信息。 | `{"base_price": 30.00, "currency": "CNY"}` |
+| `location` | 对象 | 是 | 服务提供的地理范围。 | 见下文位置对象示例。 |
+| `timing` | 对象 | 是 | 服务时间相关信息。 | 见下文时间对象示例。 |
+ 
+**位置对象示例：**
+```json
 {
-  "to": ["user@example.com"],
-  "subject": "测试邮件",
-  "body": "这是一封来自AISI协议的测试邮件。"
+  "type": "delivery_circle",
+  "address": "北京市海淀区XX路XX号",
+  "coordinates": {"latitude": 39.9042, "longitude": 116.4074},
+  "radius_meters": 1500
 }
-</code></pre>
-<p><em>响应</em></p>
-<pre class="language-http"><code>HTTP/1.1 200 OK
-Content-Type: application/json
-
+```
+ 
+**时间对象示例：**
+```json
 {
-  "message_id": "msg_20231027120000",
-  "status": "sent"
+  "preparation_duration_minutes": 5,
+  "estimated_duration_minutes": 25,
+  "business_hours": [{"days": ["Mon", "Tue", "Wed", "Thu", "Fri"], "open": "08:00", "close": "20:00"}]
 }
-</code></pre>
-<h3 id="422-异步操作与任务管理">4.2.2 异步操作与任务管理</h3>
-<p>对于标记为 <code>is_async: true</code> 的操作，调用后会返回 <code>202 Accepted</code> 和一个任务ID。智能体通过以下接口查询任务状态和结果：</p>
-<p><strong>GET <code>{base_url}/v1/tasks/{task_id}</code></strong></p>
-<p><strong>响应</strong></p>
-<ul>
-<li><strong>HTTP 200 OK</strong>：任务存在。
-<ul>
-<li><strong>Body</strong>：</li>
-</ul>
-<pre class="language-json"><code>{
-  "task_id": "task_123456",
-  "status": "pending|running|succeeded|failed|cancelled",
-  "result": { ... }, // 仅当 status 为 succeeded 时存在，符合 output_schema
-  "error": { ... },  // 仅当 status 为 failed 时存在，符合标准错误格式
-  "progress": 0.65,  // 可选，进度指示 (0-1)
-  "created_at": "2023-10-27T12:00:00Z",
-  "updated_at": "2023-10-27T12:00:05Z"
-}
-</code></pre>
-</li>
-<li><strong>HTTP 404 Not Found</strong>：任务不存在。</li>
-</ul>
-<h2 id="43-工作流组合与执行">4.3 工作流组合与执行</h2>
-<h3 id="431-工作流描述格式">4.3.1 工作流描述格式</h3>
-<p>工作流使用一个JSON对象来描述，它定义了节点（操作）和边（数据流）。</p>
-<pre class="language-json"><code>{
-  "workflow_id": "order_fulfillment",
-  "name": "订单履约工作流",
-  "description": "从创建订单到发货的完整流程。",
-  "version": "1.0",
-  "nodes": [
-    {
-      "node_id": "create_order",
-      "operation": {
-        "service_id": "com.example.shop",
-        "operation_id": "create_order"
-      },
-      "inputs": {
-        "user_id": "{{workflow.input.user_id}}",
-        "items": "{{workflow.input.items}}"
+```
+ 
+### 4.5 `provider_info` - 提供方信息
+| 字段 | 类型 | 必填 | 描述 | 示例 |
+| :--- | :--- | :--- | :--- | :--- |
+| `id` | 字符串 | 是 | 提供方唯一标识。 | `"starbucks_financial_park"` |
+| `name` | 字符串 | 是 | 提供方公开名称。 | `"星巴克（金融街店）"` |
+| `contact` | 对象 | 否 | 用于履约联系的公开信息。 | `{"phone": "13800138000"}` |
+ 
+## 5. 服务发现与调用接口（参考性）
+ 
+本章节描述了基于上述描述的**建议性**交互流程，并非强制标准。
+ 
+### 5.1 服务发现
+智能体通过查询`服务注册表`来发现服务。注册表应提供API，支持基于以下条件的过滤：
+- `category` 和 `tags`
+- 地理位置（如：在某个坐标的半径内）
+- `price` 范围
+- `timing` （如：当前是否在营业时间内）
+ 
+### 5.2 服务调用
+1.  **订单创建**：智能体代表用户，按照服务描述的`input`结构组装参数，向提供方的接单端点发起请求。
+2.  **订单确认**：提供方返回订单ID和支付信息（如适用）。
+3.  **状态同步**：提供方应通过Webhook或状态查询API，向智能体同步订单状态（如：`accepted`、`preparing`、`delivering`、`completed`）。
+ 
+## 6. 附录
+ 
+### 附录A：完整示例 - 咖啡外卖服务
+```json
+{
+  "aisi_version": "0.1",
+  "metadata": {
+    "service_id": "cornercoffee.example.com:latte:delivery_01",
+    "language": "zh-CN",
+    "created_at": "2024-06-01T10:00:00+08:00",
+    "updated_at": "2024-06-01T10:00:00+08:00",
+    "status": "published"
+  },
+  "service_unit": {
+    "name": "经典拿铁咖啡（外送）",
+    "category": ["餐饮", "咖啡", "外送"],
+    "human_description": "使用精品咖啡豆制作的拿铁，搭配绵密奶泡。",
+    "tags": ["招牌", "热销"]
+  },
+  "atomic_description": {
+    "input": {
+      "parameters": [
+        {
+          "name": "杯型",
+          "key": "size",
+          "type": "select",
+          "required": true,
+          "options": [
+            {"value": "medium", "label": "中杯 (350ml)", "price_effect": 0},
+            {"value": "large", "label": "大杯 (500ml)", "price_effect": 5}
+          ]
+        },
+        {
+          "name": "温度",
+          "key": "temperature",
+          "type": "select",
+          "required": true,
+          "options": [
+            {"value": "hot", "label": "热"},
+            {"value": "iced", "label": "冰"}
+          ]
+        }
+      ],
+      "constraints": {
+        "delivery_address": {"required": true}
       }
     },
-    {
-      "node_id": "process_payment",
-      "operation": {
-        "service_id": "com.example.payment",
-        "operation_id": "charge_card"
-      },
-      "inputs": {
-        "order_id": "{{nodes.create_order.output.order_id}}",
-        "amount": "{{nodes.create_order.output.total_amount}}"
-      }
+    "output": {
+      "core_item": "1杯拿铁咖啡",
+      "specifications": {"temperature": "根据选择"},
+      "material_list": ["意式浓缩咖啡", "蒸煮牛奶"]
     }
-  ],
-  "output": {
-    "order_id": "{{nodes.create_order.output.order_id}}",
-    "payment_status": "{{nodes.process_payment.output.status}}"
+  },
+  "fulfillment_terms": {
+    "pricing": {"base_price": 30.00, "currency": "CNY"},
+    "location": {
+      "type": "delivery_circle",
+      "address": "北京XX产业园A座1楼",
+      "coordinates": {"latitude": 39.9130, "longitude": 116.3524},
+      "radius_meters": 2000
+    },
+    "timing": {
+      "preparation_duration_minutes": 8,
+      "estimated_duration_minutes": 30,
+      "business_hours": [
+        {"days": ["Mon", "Tue", "Wed", "Thu", "Fri"], "open": "08:00", "close": "19:00"},
+        {"days": ["Sat", "Sun"], "open": "09:00", "close": "18:00"}
+      ]
+    }
+  },
+  "provider_info": {
+    "id": "corner_coffee_finpark",
+    "name": "转角咖啡馆（产业园店）",
+    "contact": {"phone": "13912345678"}
   }
 }
-</code></pre>
-<p><strong>关键字段说明：</strong></p>
-<ul>
-<li><code>nodes</code>：工作流节点列表，每个节点引用一个特定的原子操作（通过 <code>service_id</code> 和 <code>operation_id</code>）。</li>
-<li><code>inputs</code>：节点的输入映射。使用 <strong>JSON模板字符串</strong> 引用其他节点的输出（格式如 <code>{{nodes.<node_id>.output.<field>}}</code>）或工作流的初始输入（<code>{{workflow.input.<field>}}</code>）。</li>
-<li><code>output</code>：工作流的最终输出，同样使用模板引用节点输出。</li>
-</ul>
-<h3 id="432-工作流执行">4.3.2 工作流执行</h3>
-<p>智能体可以将工作流描述提交给一个支持工作流执行的“工作流引擎”（可以是独立的服务，或由某个服务提供者托管）。</p>
-<p><strong>POST <code>{workflow_engine_url}/v1/workflows/execute</code></strong></p>
-<ul>
-<li><strong>Body</strong>：包含 <code>workflow</code>（工作流描述）和 <code>input</code>（初始输入数据）。</li>
-<li><strong>响应</strong>：与调用原子操作类似，返回 <code>200</code>（同步）或 <code>202</code>（异步）以及结果或任务ID。</li>
-</ul>
-<h2 id="44-错误处理">4.4 错误处理</h2>
-<p>所有错误响应应使用统一的JSON格式：</p>
-<pre class="language-json"><code>{
-  "error": {
-    "code": "validation_failed",
-    "message": "输入数据验证失败。",
-    "details": [
-      {
-        "field": "to",
-        "issue": "必须是一个有效的邮箱地址。"
-      }
-    ]
-  }
-}
-</code></pre>
-<p><strong>标准错误码（部分示例）：</strong></p>
-<ul>
-<li><code>invalid_input</code>：输入不符合schema。</li>
-<li><code>operation_not_found</code>：操作不存在。</li>
-<li><code>service_unavailable</code>：服务暂时不可用。</li>
-<li><code>task_not_found</code>：异步任务不存在。</li>
-<li><code>workflow_execution_failed</code>：工作流执行失败。</li>
-</ul>
-<h1 id="安全与认证">5. 安全与认证</h1>
-<p>服务提供者必须实施适当的安全措施：</p>
-<ol>
-<li><strong>HTTPS</strong>：所有通信必须使用TLS 1.2或更高版本加密。</li>
-<li><strong>认证与授权</strong>：服务应支持标准的认证机制（如OAuth 2.0、API Key）。认证方式应在服务描述中声明（可通过扩展字段）。</li>
-<li><strong>输入验证与清理</strong>：服务必须严格按照 <code>input_schema</code> 验证所有输入，防止注入攻击。</li>
-<li><strong>速率限制</strong>：建议对API调用实施速率限制，并在响应头中提供配额信息（如 <code>X-RateLimit-Limit</code>, <code>X-RateLimit-Remaining</code>）。</li>
-</ol>
-<h1 id="扩展性">6. 扩展性</h1>
-<p>协议可通过以下机制扩展：</p>
-<ol>
-<li><strong>自定义操作属性</strong>：在原子操作描述中添加非标准的 <code>x-*</code> 字段。</li>
-<li><strong>服务元数据</strong>：在服务描述中添加 <code>metadata</code> 字段，存放供应商特定信息。</li>
-<li><strong>协议版本</strong>：通过 <code>version</code> 字段管理兼容性。</li>
-</ol>
-<h1 id="示例应用场景">7. 示例应用场景</h1>
-<h2 id="场景1-智能客服工单自动处理">场景1：智能客服工单自动处理</h2>
-<ol>
-<li><strong>服务</strong>：工单系统、邮件服务、用户数据库、知识库。</li>
-<li><strong>原子操作</strong>：<code>create_ticket</code>, <code>find_user</code>, <code>search_knowledge_base</code>, <code>send_email</code>。</li>
-<li><strong>工作流</strong>：
-<ol>
-<li>接收用户问题。</li>
-<li><code>find_user</code> 获取用户信息。</li>
-<li><code>search_knowledge_base</code> 尝试自动回答。</li>
-<li>如果找到答案，<code>send_email</code> 回复用户并 <code>create_ticket</code> 记录（状态为“已解决”）。</li>
-<li>如果未找到答案，<code>create_ticket</code> 分配人工客服。</li>
-</ol>
-</li>
-</ol>
-<h2 id="场景2-电商订单自动化">场景2：电商订单自动化</h2>
-<ol>
-<li><strong>服务</strong>：商品目录、购物车、支付网关、库存管理、物流。</li>
-<li><strong>原子操作</strong>：<code>check_inventory</code>, <code>calculate_tax</code>, <code>charge_payment</code>, <code>update_inventory</code>, <code>create_shipment</code>。</li>
-<li><strong>工作流</strong>：
-<ol>
-<li>用户提交订单。</li>
-<li><code>check_inventory</code> 验证库存。</li>
-<li><code>calculate_tax</code> 计算税费。</li>
-<li><code>charge_payment</code> 扣款。</li>
-<li>支付成功后，并行执行：<code>update_inventory</code> 扣减库存，<code>create_shipment</code> 生成运单。</li>
-</ol>
-</li>
-</ol>
-<h1 id="附录">附录</h1>
-<h2 id="a-协议版本历史">A. 协议版本历史</h2>
-<ul>
-<li><strong>v0.1 (当前)</strong>：初始草案，定义核心概念、服务发现、原子操作调用、异步任务和基础工作流。</li>
-</ul>
-<h2 id="b-参考实现与工具">B. 参考实现与工具</h2>
-<p>（待补充）</p>
-<ul>
-<li>SDK（Python/JavaScript）</li>
-<li>服务描述验证器</li>
-<li>工作流可视化编辑器</li>
-<li>示例服务</li>
-</ul>
-<h2 id="c-与其他规范的关系">C. 与其他规范的关系</h2>
-<ul>
-<li><strong>OpenAPI</strong>：AISI可以视为对OpenAPI的“原子化”补充。一个传统的OpenAPI接口可以被拆分为多个AISI原子操作。</li>
-<li><strong>JSON Schema</strong>：AISI重度依赖JSON Schema作为数据描述和验证的标准。</li>
-<li><strong>W3C WebAssembly</strong>：未来可能将原子操作编译为WASM模块，实现跨平台、沙箱化执行。</li>
-</ul>
+```
+ 
+### 附录B：标准化字段格式
+- **日期与时间**：必须使用 [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) 格式。
+- **地理坐标**：采用WGS-84坐标系，`longitude`（经度）在前，`latitude`（纬度）在后。
+- **货币代码**：采用 [ISO 4217](https://www.iso.org/iso-4217-currency-codes.html) 三位字母代码。
+ 
+### 附录C：版本历史
+- **v0.1 Alpha (当前版本)**：初始草案，定义核心数据架构与原子化描述原则。
+ 
+---
+**版权与许可声明**
+本文档在 [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) 许可下发布，允许在署名和相同方式共享的前提下自由使用。
+ 
+**讨论与贡献**
+欢迎通过 [GitHub Issues] 或 [社区论坛] 就本协议提出建议、发现问题或参与讨论。
+（*https://aisi-tanchong.github.io*）
+        </article>
+    </main>
 
-    </article>
-
+    <!-- 第三部分：JavaScript交互脚本 -->
     <script>
-        // 动态生成目录
-        function generateTOC() {
-            const article = document.querySelector('.markdown-body');
-            const headings = article.querySelectorAll('h1, h2, h3');
-            const tocContainer = document.getElementById('table-of-contents');
-            if (!tocContainer || headings.length === 0) return;
-
-            let tocHTML = '<strong>目录</strong><ul>';
-            let currentH1 = null;
-            let currentH2 = null;
-
-            headings.forEach((heading) => {
-                const id = heading.id || heading.textContent.replace(/\s+/g, '-').toLowerCase();
-                heading.id = id;
-                const level = parseInt(heading.tagName.substring(1));
-
-                if (level === 1) {
-                    if (currentH1) {
-                        if (currentH2) {
-                            tocHTML += '</ul></li>';
-                            currentH2 = null;
-                        }
-                        tocHTML += '</ul></li>';
+        // 导航点击与高亮逻辑
+        document.querySelectorAll('.sidebar nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if(this.hash) {
+                    e.preventDefault();
+                    const targetId = this.hash.substring(1);
+                    const targetElement = document.getElementById(targetId) || document.querySelector(`[name='${targetId}']`);
+                    if(targetElement) {
+                        window.scrollTo({ top: targetElement.offsetTop - 20, behavior: 'smooth' });
                     }
-                    tocHTML += `<li><a href="#${id}">${heading.textContent}</a><ul>`;
-                    currentH1 = heading;
-                } else if (level === 2) {
-                    if (currentH2) {
-                        tocHTML += '</ul></li>';
-                    }
-                    tocHTML += `<li><a href="#${id}">${heading.textContent}</a><ul>`;
-                    currentH2 = heading;
-                } else if (level === 3) {
-                    tocHTML += `<li><a href="#${id}">${heading.textContent}</a></li>`;
                 }
             });
-
-            // 关闭最后的列表
-            if (currentH2) tocHTML += '</ul></li>';
-            if (currentH1) tocHTML += '</ul></li>';
-            tocHTML += '</ul>';
-
-            tocContainer.innerHTML = tocHTML;
-        }
-
-        // 页面加载完成后生成目录
-        document.addEventListener('DOMContentLoaded', generateTOC);
+        });
+        // 滚动时自动高亮当前章节
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.markdown-body h1, .markdown-body h2');
+            let currentSectionId = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if(window.scrollY >= sectionTop - 100) {
+                    currentSectionId = section.getAttribute('id');
+                }
+            });
+            document.querySelectorAll('.sidebar nav a').forEach(link => {
+                link.classList.remove('active');
+                if(link.getAttribute('href') === `#${currentSectionId}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
     </script>
 </body>
+</html>
 </html>
