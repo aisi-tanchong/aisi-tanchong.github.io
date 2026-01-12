@@ -1,386 +1,757 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2022.7">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px Calibri; color: #000000}
-    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: justify; font: 14.0px Calibri; color: #000000}
-    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: justify; font: 14.0px SimSun; color: #000000}
-    span.s1 {font: 12.0px 'PingFang SC'}
-    span.s2 {font: 12.0px 'Apple Color Emoji'}
-    span.s3 {font: 12.0px Helvetica; color: #000000}
-    span.s4 {font-kerning: none}
-    span.s5 {font: 14.0px SimSun; font-kerning: none}
-    span.s6 {font: 14.0px Calibri; font-kerning: none}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AISI服务描述协议（Atomized Intelligent Service Interface）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #24292e;
+            background-color: #fff;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            border-bottom: 2px solid #eaecef;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            color: #24292e;
+            margin-bottom: 10px;
+        }
+        
+        .version-info {
+            color: #6a737d;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+        
+        .meta-info {
+            background-color: #f6f8fa;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #0366d6;
+            margin-bottom: 20px;
+        }
+        
+        .meta-info p {
+            margin: 5px 0;
+        }
+        
+        h2 {
+            font-size: 1.8em;
+            color: #24292e;
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: 10px;
+            margin: 30px 0 20px;
+        }
+        
+        h3 {
+            font-size: 1.4em;
+            color: #24292e;
+            margin: 25px 0 15px;
+        }
+        
+        h4 {
+            font-size: 1.2em;
+            color: #24292e;
+            margin: 20px 0 10px;
+        }
+        
+        p {
+            margin: 15px 0;
+            text-align: justify;
+        }
+        
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        .definition-list {
+            background-color: #f6f8fa;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .definition-list dt {
+            font-weight: bold;
+            color: #24292e;
+            margin-top: 15px;
+        }
+        
+        .definition-list dt:first-child {
+            margin-top: 0;
+        }
+        
+        .definition-list dd {
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff;
+            border: 1px solid #e1e4e8;
+        }
+        
+        th {
+            background-color: #f6f8fa;
+            border: 1px solid #e1e4e8;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            border: 1px solid #e1e4e8;
+            padding: 12px;
+            vertical-align: top;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #fafbfc;
+        }
+        
+        .json-code {
+            background-color: #f6f8fa;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 14px;
+            line-height: 1.4;
+            overflow-x: auto;
+        }
+        
+        .json-key {
+            color: #d73a49;
+        }
+        
+        .json-string {
+            color: #032f62;
+        }
+        
+        .json-number {
+            color: #005cc5;
+        }
+        
+        .json-boolean {
+            color: #005cc5;
+        }
+        
+        .json-null {
+            color: #005cc5;
+        }
+        
+        .note {
+            background-color: #fff8c5;
+            border: 1px solid #f0c438;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #735c0f;
+        }
+        
+        .appendix {
+            background-color: #f6f8fa;
+            border-left: 4px solid #0366d6;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .appendix h3 {
+            margin-top: 0;
+        }
+        
+        footer {
+            border-top: 2px solid #eaecef;
+            padding-top: 20px;
+            margin-top: 40px;
+            color: #6a737d;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            h2 {
+                font-size: 1.6em;
+            }
+            
+            h3 {
+                font-size: 1.3em;
+            }
+            
+            table {
+                font-size: 0.9em;
+            }
+            
+            th, td {
+                padding: 8px;
+            }
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+                max-width: none;
+            }
+            
+            .json-code {
+                page-break-inside: avoid;
+            }
+            
+            table {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="zh-CN"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;AISI<span class="s1">服务互联网协议</span> v0.1&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- <span class="s1">本地的</span> Markdown <span class="s1">样式</span> --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.markdown-body {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>box-sizing: border-box;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>min-width: 200px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>max-width: 980px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin: 0 auto;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 45px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 16px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>line-height: 1.6;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>word-wrap: break-word;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: #24292e;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: #fff;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.markdown-body a { color: #0366d6; text-decoration: none; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.markdown-body a:hover { text-decoration: underline; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.markdown-body h1, .markdown-body h2 { padding-bottom: 0.3em; border-bottom: 1px solid #eaecef; margin-top: 24px; margin-bottom: 16px; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.markdown-body h1 { font-size: 2em; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.markdown-body h2 { font-size: 1.5em; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.markdown-body pre { background-color: #f6f8fa; padding: 16px; overflow: auto; border-radius: 6px; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.markdown-body code { font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace; padding: 0.2em 0.4em; margin: 0; background-color: rgba(27,31,35,0.05); border-radius: 3px; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.markdown-body pre code { padding: 0; background-color: transparent; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.markdown-body table { border-spacing: 0; border-collapse: collapse; display: block; width: 100%; overflow: auto; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.markdown-body table th, .markdown-body table td { padding: 6px 13px; border: 1px solid #dfe2e5; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.markdown-body table th { font-weight: 600; background-color: #f6f8fa; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.markdown-body img { max-width: 100%; box-sizing: content-box; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.markdown-body blockquote { padding: 0 1em; color: #6a737d; border-left: 0.25em solid #dfe2e5; margin: 0; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* <span class="s1">主页面布局样式</span> */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>* { margin: 0; padding: 0; box-sizing: border-box; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: #f8f9fa; color: #333; line-height: 1.6; display: flex; min-height: 100vh; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.sidebar { width: 260px; background: #fff; border-right: 1px solid #e1e4e8; padding: 2rem 1.5rem; position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.sidebar h2 { color: #0366d6; margin-bottom: 1.5rem; font-size: 1.5rem; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.sidebar nav ul { list-style: none; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.sidebar nav li { margin-bottom: 0.8rem; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.sidebar nav a { color: #586069; text-decoration: none; display: block; padding: 0.5rem 1rem; border-radius: 6px; transition: background 0.2s, color 0.2s; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.sidebar nav a:hover, .sidebar nav a.active { background: #0366d6; color: white; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.content { flex: 1; padding: 3rem 4rem; overflow-y: auto; max-width: 1000px; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.header-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid #e1e4e8; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.version-badge { background: #0366d6; color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.9rem; font-weight: bold; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>@media (max-width: 768px) { body { flex-direction: column; } .sidebar { width: 100%; height: auto; position: relative; } .content { padding: 2rem; } }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- <span class="s1">左侧导航栏</span> --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;aside class="sidebar"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;AISI Protocol&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;nav&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;li&gt;&lt;a href="#<span class="s1">摘要</span>" class="active"&gt;1. <span class="s1">摘要</span>&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;li&gt;&lt;a href="#<span class="s1">愿景与原则</span>"&gt;2. <span class="s1">愿景与原则</span>&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;li&gt;&lt;a href="#<span class="s1">核心概念定义</span>"&gt;3. <span class="s1">核心概念定义</span>&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;li&gt;&lt;a href="#<span class="s1">协议数据架构</span>"&gt;4. <span class="s1">协议数据架构</span>&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;li&gt;&lt;a href="#<span class="s1">服务发现与调用接口参考性</span>"&gt;5. <span class="s1">服务发现与调用接口</span>&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;li&gt;&lt;a href="#<span class="s1">附录</span>"&gt;6. <span class="s1">附录</span>&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;li&gt;&lt;hr style="border-color:#e1e4e8; margin: 1.5rem 0;"&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;li&gt;&lt;a href="https://gitee.com/<span class="s1">你的用户名</span>/aisi-protocol" target="_blank"&gt;<span class="s2">🚀</span> <span class="s1">访问</span> Gitee <span class="s1">仓库</span>&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;li&gt;&lt;a href="https://gitee.com/<span class="s1">你的用户名</span>/aisi-protocol/issues" target="_blank"&gt;<span class="s2">💡</span> <span class="s1">参与讨论</span> (Issues)&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/nav&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/aside&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- <span class="s1">主内容区</span> --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;main class="content"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="header-actions"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;h1 style="border: none; margin: 0; padding: 0;"&gt;AISI <span class="s1">服务描述协议</span> v0.1&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="version-badge"&gt;Alpha <span class="s1">草案</span>&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- <span class="s1">协议正文粘贴位置</span> --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;article class="markdown-body"&gt;</p>
-<p class="p3"><span class="s3"><span class="Apple-converted-space">        </span></span><span class="s4"># AISI</span><span class="s5">服务描述协议（</span><span class="s4">Atomized Intelligent Service Interface</span><span class="s5">）</span></p>
-<p class="p4"><span class="s4">**</span><span class="s5">版本：</span><span class="s4">** 0.1 Alpha</span><span class="s5">（草稿）</span></p>
-<p class="p5"><span class="s6">**</span><span class="s4">状态：</span><span class="s6">** </span><span class="s4">草案，用于公开讨论</span></p>
-<p class="p4"><span class="s4">**</span><span class="s5">作者：</span><span class="s4">** [</span><span class="s5">谈翀</span><span class="s4">]</span></p>
-<p class="p4"><span class="s4">**</span><span class="s5">发布日期：</span><span class="s4">** 2026</span><span class="s5">年</span><span class="s4">1</span><span class="s5">月</span><span class="s4">10</span><span class="s5">日</span></p>
-<p class="p4"><span class="s4">---</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p4"><span class="s4">## 1. </span><span class="s5">摘要</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p5"><span class="s6">AISI</span><span class="s4">（</span><span class="s6">Atomized Intelligent Service Interface</span><span class="s4">，原子化智能服务接口）协议旨在</span><span class="s6">**</span><span class="s4">为人工智能体（</span><span class="s6">AI Agent</span><span class="s4">）与真实世界服务之间，建立一套机器可读、语义无歧义的标准化描述与交互接口</span><span class="s6">**</span><span class="s4">。其核心目标是将任意复杂的商业或生活服务，拆解、描述为最小可执行单元——“原子服务”，使智能体能够像人类理解菜单一样，精准发现、推荐并调用这些服务。</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p5"><span class="s4">本协议定义了服务提供方如何描述其“原子服务”，以及智能体如何发现、理解与调用这些服务的</span><span class="s6">**</span><span class="s4">基础数据框架与交互范式</span><span class="s6">**</span><span class="s4">。它不依赖任何特定平台，旨在成为开放、中立的服务互联网“基础语法”。</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p4"><span class="s4">## 2. </span><span class="s5">愿景与原则</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p4"><span class="s4">### 2.1 </span><span class="s5">愿景</span></p>
-<p class="p5"><span class="s4">构建一个</span><span class="s6">**</span><span class="s4">以用户意图为中心、由智能体作为主要交互界面的下一代服务互联网</span><span class="s6">**</span><span class="s4">。在这个网络中，服务如同信息一样自由、高效地流动，用户通过自然语言即可无缝获取全球服务。</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p4"><span class="s4">### 2.2 </span><span class="s5">核心原则</span></p>
-<p class="p5"><span class="s6">1.  **</span><span class="s4">机器可读性优先</span><span class="s6">**</span><span class="s4">：描述格式的首要目标是确保</span><span class="s6">AI</span><span class="s4">能无歧义地理解。</span></p>
-<p class="p5"><span class="s6">2.  **</span><span class="s4">原子化</span><span class="s6">**</span><span class="s4">：服务应被描述为最小、不可再分且可独立交付的单元。</span></p>
-<p class="p5"><span class="s6">3.  **</span><span class="s4">语义标准化</span><span class="s6">**</span><span class="s4">：对关键概念（如时间、地点、价格）采用公认的标准格式。</span></p>
-<p class="p5"><span class="s6">4.  **</span><span class="s4">平台中立与开放性</span><span class="s6">**</span><span class="s4">：协议本身不绑定任何特定商业平台，鼓励广泛实现。</span></p>
-<p class="p5"><span class="s6">5.  **</span><span class="s4">渐进演化</span><span class="s6">**</span><span class="s4">：协议版本应保持向后兼容，并通过社区共识持续演进。</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p4"><span class="s4">## 3. </span><span class="s5">核心概念定义</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p5"><span class="s6">*   **</span><span class="s4">原子服务 </span><span class="s6">(Atomic Service)**</span><span class="s4">：能够被独立提供、交付并完成一次完整价值交换的最小服务单元。例如：“一杯外送至指定地址的</span><span class="s6">350</span><span class="s4">毫升冰美式咖啡”是一个原子服务，而“开一家咖啡馆”不是。</span></p>
-<p class="p5"><span class="s6">*   **</span><span class="s4">服务提供方 </span><span class="s6">(Provider)**</span><span class="s4">：发布并履行原子服务的实体或个人。</span></p>
-<p class="p5"><span class="s6">*   **</span><span class="s4">智能体 </span><span class="s6">(AI Agent)**</span><span class="s4">：代表用户，能够理解意图、发现并调用原子服务的软件实体。</span></p>
-<p class="p5"><span class="s6">*   **</span><span class="s4">服务描述 </span><span class="s6">(Service Description)**</span><span class="s4">：按照本协议格式编写的，对一个原子服务的完整定义文件。</span></p>
-<p class="p5"><span class="s6">*   **</span><span class="s4">服务注册表 </span><span class="s6">(Service Registry)**</span><span class="s4">：存储并可被查询的服务描述集合，可以是中心化索引或去中心化网络。</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p4"><span class="s4">## 4. </span><span class="s5">协议数据架构</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p5"><span class="s4">一个完整的</span><span class="s6">AISI</span><span class="s4">服务描述是一个</span><span class="s6">JSON</span><span class="s4">对象，其根结构如下：</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p4"><span class="s4">```json</span></p>
-<p class="p4"><span class="s4">{</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"aisi_version": "0.1",</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"metadata": {...},</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"service_unit": {...},</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"atomic_description": {...},</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"fulfillment_terms": {...},</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"provider_info": {...}</span></p>
-<p class="p4"><span class="s4">}</span></p>
-<p class="p4"><span class="s4">```</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p4"><span class="s4">### 4.1 `metadata` - </span><span class="s5">元数据</span></p>
-<p class="p5"><span class="s4">用于标识和追踪服务描述本身。</span></p>
-<p class="p5"><span class="s6">| </span><span class="s4">字段 </span><span class="s6">| </span><span class="s4">类型 </span><span class="s6">| </span><span class="s4">必填 </span><span class="s6">| </span><span class="s4">描述 </span><span class="s6">| </span><span class="s4">示例 </span><span class="s6">|</span></p>
-<p class="p4"><span class="s4">| :--- | :--- | :--- | :--- | :--- |</span></p>
-<p class="p4"><span class="s4">| `service_id` | </span><span class="s5">字符串 </span><span class="s4">| </span><span class="s5">是 </span><span class="s4">| </span><span class="s5">服务的全局唯一标识符。推荐格式：</span><span class="s4">`provider_domain:service_type:unique_id` | `"coffee.example.com:latte:basic_01"` |</span></p>
-<p class="p4"><span class="s4">| `language` | </span><span class="s5">字符串 </span><span class="s4">| </span><span class="s5">是 </span><span class="s4">| </span><span class="s5">描述文本使用的语言代码。 </span><span class="s4">| `"zh-CN"` |</span></p>
-<p class="p4"><span class="s4">| `created_at` | </span><span class="s5">字符串 </span><span class="s4">| </span><span class="s5">是 </span><span class="s4">| </span><span class="s5">描述创建时间（</span><span class="s4">ISO 8601</span><span class="s5">）。 </span><span class="s4">| `"2024-06-01T10:00:00+08:00"` |</span></p>
-<p class="p4"><span class="s4">| `updated_at` | </span><span class="s5">字符串 </span><span class="s4">| </span><span class="s5">是 </span><span class="s4">| </span><span class="s5">描述最后更新时间（</span><span class="s4">ISO 8601</span><span class="s5">）。 </span><span class="s4">| `"2024-06-10T15:30:00+08:00"` |</span></p>
-<p class="p4"><span class="s4">| `status` | </span><span class="s5">字符串 </span><span class="s4">| </span><span class="s5">是 </span><span class="s4">| </span><span class="s5">服务状态。枚举：</span><span class="s4">`"draft"`, `"published"`, `"suspended"`, `"archived"` | `"published"` |</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p4"><span class="s4">### 4.2 `service_unit` - </span><span class="s5">服务单元</span></p>
-<p class="p5"><span class="s4">对人类和智能体展示的核心信息。</span></p>
-<p class="p5"><span class="s6">| </span><span class="s4">字段 </span><span class="s6">| </span><span class="s4">类型 </span><span class="s6">| </span><span class="s4">必填 </span><span class="s6">| </span><span class="s4">描述 </span><span class="s6">| </span><span class="s4">示例 </span><span class="s6">|</span></p>
-<p class="p4"><span class="s4">| :--- | :--- | :--- | :--- | :--- |</span></p>
-<p class="p5"><span class="s6">| `name` | </span><span class="s4">字符串 </span><span class="s6">| </span><span class="s4">是 </span><span class="s6">| </span><span class="s4">服务的简洁、人类可读名称。 </span><span class="s6">| `"</span><span class="s4">经典拿铁咖啡（外送）</span><span class="s6">"` |</span></p>
-<p class="p4"><span class="s4">| `category` | </span><span class="s5">字符串数组 </span><span class="s4">| </span><span class="s5">是 </span><span class="s4">| </span><span class="s5">服务分类标签，用于高效检索。 </span><span class="s4">| `["</span><span class="s5">餐饮</span><span class="s4">", "</span><span class="s5">咖啡</span><span class="s4">", "</span><span class="s5">外送</span><span class="s4">"]` |</span></p>
-<p class="p5"><span class="s6">| `human_description` | </span><span class="s4">字符串 </span><span class="s6">| </span><span class="s4">是 </span><span class="s6">| </span><span class="s4">面向人类的详细服务说明。 </span><span class="s6">| `"</span><span class="s4">一款由意式浓缩咖啡与蒸煮牛奶调和而成的经典咖啡饮品，口感顺滑。</span><span class="s6">"` |</span></p>
-<p class="p4"><span class="s4">| `tags` | </span><span class="s5">字符串数组 </span><span class="s4">| </span><span class="s5">否 </span><span class="s4">| </span><span class="s5">额外的关键词标签。 </span><span class="s4">| `["</span><span class="s5">新品</span><span class="s4">", "</span><span class="s5">招牌</span><span class="s4">", "</span><span class="s5">提神</span><span class="s4">"]` |</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p4"><span class="s4">### 4.3 `atomic_description` - </span><span class="s5">原子化描述（协议核心）</span></p>
-<p class="p5"><span class="s6">**</span><span class="s4">从机器视角，无歧义地定义服务的“输入”与“输出”。</span><span class="s6">**</span></p>
-<p class="p5"><span class="s6">| </span><span class="s4">字段 </span><span class="s6">| </span><span class="s4">类型 </span><span class="s6">| </span><span class="s4">必填 </span><span class="s6">| </span><span class="s4">描述 </span><span class="s6">| </span><span class="s4">示例 </span><span class="s6">|</span></p>
-<p class="p4"><span class="s4">| :--- | :--- | :--- | :--- | :--- |</span></p>
-<p class="p4"><span class="s4">| `input` | </span><span class="s5">对象 </span><span class="s4">| </span><span class="s5">是 </span><span class="s4">| **</span><span class="s5">执行此服务所需的输入参数</span><span class="s4">**</span><span class="s5">。 </span><span class="s4">| </span><span class="s5">见下文 </span><span class="s4">`input` </span><span class="s5">结构详述。 </span><span class="s4">|</span></p>
-<p class="p4"><span class="s4">| `output` | </span><span class="s5">对象 </span><span class="s4">| </span><span class="s5">是 </span><span class="s4">| **</span><span class="s5">服务方承诺交付的确定结果</span><span class="s4">**</span><span class="s5">。 </span><span class="s4">| </span><span class="s5">见下文 </span><span class="s4">`output` </span><span class="s5">结构详述。 </span><span class="s4">|</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p4"><span class="s4">#### 4.3.1 `input` </span><span class="s5">对象结构</span></p>
-<p class="p5"><span class="s4">定义用户或智能体需要提供什么。</span></p>
-<p class="p5"><span class="s6">| </span><span class="s4">字段 </span><span class="s6">| </span><span class="s4">类型 </span><span class="s6">| </span><span class="s4">必填 </span><span class="s6">| </span><span class="s4">描述 </span><span class="s6">| </span><span class="s4">示例 </span><span class="s6">|</span></p>
-<p class="p4"><span class="s4">| :--- | :--- | :--- | :--- | :--- |</span></p>
-<p class="p5"><span class="s6">| `parameters` | </span><span class="s4">数组 </span><span class="s6">| </span><span class="s4">否 </span><span class="s6">| </span><span class="s4">可选的定制化参数列表。 </span><span class="s6">| </span><span class="s4">见下文参数表示例。 </span><span class="s6">|</span></p>
-<p class="p4"><span class="s4">| `constraints` | </span><span class="s5">对象 </span><span class="s4">| </span><span class="s5">否 </span><span class="s4">| </span><span class="s5">执行服务的必要前提条件。 </span><span class="s4">| `{"delivery_address": {"required": true}}` |</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p4"><span class="s4">**`parameters` </span><span class="s5">数组中的参数项示例：</span><span class="s4">**</span></p>
-<p class="p4"><span class="s4">```json</span></p>
-<p class="p4"><span class="s4">{</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"name": "</span><span class="s5">杯型</span><span class="s4">",</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"key": "size",</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"type": "select",</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"required": true,</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"options": [</span></p>
-<p class="p4"><span class="s5">    </span><span class="s4">{"value": "medium", "label": "</span><span class="s5">中杯 </span><span class="s4">(350ml)", "price_effect": 0},</span></p>
-<p class="p4"><span class="s5">    </span><span class="s4">{"value": "large", "label": "</span><span class="s5">大杯 </span><span class="s4">(500ml)", "price_effect": 5}</span></p>
-<p class="p5"><span class="s4">  </span><span class="s6">]</span></p>
-<p class="p4"><span class="s4">}</span></p>
-<p class="p4"><span class="s4">```</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p4"><span class="s4">#### 4.3.2 `output` </span><span class="s5">对象结构</span></p>
-<p class="p5"><span class="s4">定义服务方承诺交付什么。</span></p>
-<p class="p5"><span class="s6">| </span><span class="s4">字段 </span><span class="s6">| </span><span class="s4">类型 </span><span class="s6">| </span><span class="s4">必填 </span><span class="s6">| </span><span class="s4">描述 </span><span class="s6">| </span><span class="s4">示例 </span><span class="s6">|</span></p>
-<p class="p4"><span class="s4">| :--- | :--- | :--- | :--- | :--- |</span></p>
-<p class="p4"><span class="s4">| `core_item` | </span><span class="s5">字符串 </span><span class="s4">| </span><span class="s5">是 </span><span class="s4">| </span><span class="s5">交付物的最核心描述。 </span><span class="s4">| `"1</span><span class="s5">杯拿铁咖啡</span><span class="s4">"` |</span></p>
-<p class="p4"><span class="s4">| `specifications` | </span><span class="s5">对象 </span><span class="s4">| </span><span class="s5">否 </span><span class="s4">| </span><span class="s5">具体的规格属性。 </span><span class="s4">| `{"volume_ml": 350, "temperature": "</span><span class="s5">热</span><span class="s4">"}` |</span></p>
-<p class="p4"><span class="s4">| `material_list` | </span><span class="s5">字符串数组 </span><span class="s4">| </span><span class="s5">否 </span><span class="s4">| </span><span class="s5">主要材料或成分列表。 </span><span class="s4">| `["</span><span class="s5">意式浓缩咖啡</span><span class="s4">", "</span><span class="s5">蒸煮牛奶</span><span class="s4">"]` |</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p4"><span class="s4">### 4.4 `fulfillment_terms` - </span><span class="s5">履约条款</span></p>
-<p class="p5"><span class="s4">定义服务如何、何时、何地被交付。</span></p>
-<p class="p5"><span class="s6">| </span><span class="s4">字段 </span><span class="s6">| </span><span class="s4">类型 </span><span class="s6">| </span><span class="s4">必填 </span><span class="s6">| </span><span class="s4">描述 </span><span class="s6">| </span><span class="s4">示例 </span><span class="s6">|</span></p>
-<p class="p4"><span class="s4">| :--- | :--- | :--- | :--- | :--- |</span></p>
-<p class="p4"><span class="s4">| `pricing` | </span><span class="s5">对象 </span><span class="s4">| </span><span class="s5">是 </span><span class="s4">| </span><span class="s5">价格信息。 </span><span class="s4">| `{"base_price": 30.00, "currency": "CNY"}` |</span></p>
-<p class="p5"><span class="s6">| `location` | </span><span class="s4">对象 </span><span class="s6">| </span><span class="s4">是 </span><span class="s6">| </span><span class="s4">服务提供的地理范围。 </span><span class="s6">| </span><span class="s4">见下文位置对象示例。 </span><span class="s6">|</span></p>
-<p class="p5"><span class="s6">| `timing` | </span><span class="s4">对象 </span><span class="s6">| </span><span class="s4">是 </span><span class="s6">| </span><span class="s4">服务时间相关信息。 </span><span class="s6">| </span><span class="s4">见下文时间对象示例。 </span><span class="s6">|</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p5"><span class="s6">**</span><span class="s4">位置对象示例：</span><span class="s6">**</span></p>
-<p class="p4"><span class="s4">```json</span></p>
-<p class="p4"><span class="s4">{</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"type": "delivery_circle",</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"address": "</span><span class="s5">北京市海淀区</span><span class="s4">XX</span><span class="s5">路</span><span class="s4">XX</span><span class="s5">号</span><span class="s4">",</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"coordinates": {"latitude": 39.9042, "longitude": 116.4074},</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"radius_meters": 1500</span></p>
-<p class="p4"><span class="s4">}</span></p>
-<p class="p4"><span class="s4">```</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p5"><span class="s6">**</span><span class="s4">时间对象示例：</span><span class="s6">**</span></p>
-<p class="p4"><span class="s4">```json</span></p>
-<p class="p4"><span class="s4">{</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"preparation_duration_minutes": 5,</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"estimated_duration_minutes": 25,</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"business_hours": [{"days": ["Mon", "Tue", "Wed", "Thu", "Fri"], "open": "08:00", "close": "20:00"}]</span></p>
-<p class="p4"><span class="s4">}</span></p>
-<p class="p4"><span class="s4">```</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p4"><span class="s4">### 4.5 `provider_info` - </span><span class="s5">提供方信息</span></p>
-<p class="p5"><span class="s6">| </span><span class="s4">字段 </span><span class="s6">| </span><span class="s4">类型 </span><span class="s6">| </span><span class="s4">必填 </span><span class="s6">| </span><span class="s4">描述 </span><span class="s6">| </span><span class="s4">示例 </span><span class="s6">|</span></p>
-<p class="p4"><span class="s4">| :--- | :--- | :--- | :--- | :--- |</span></p>
-<p class="p4"><span class="s4">| `id` | </span><span class="s5">字符串 </span><span class="s4">| </span><span class="s5">是 </span><span class="s4">| </span><span class="s5">提供方唯一标识。 </span><span class="s4">| `"starbucks_financial_park"` |</span></p>
-<p class="p5"><span class="s6">| `name` | </span><span class="s4">字符串 </span><span class="s6">| </span><span class="s4">是 </span><span class="s6">| </span><span class="s4">提供方公开名称。 </span><span class="s6">| `"</span><span class="s4">星巴克（金融街店）</span><span class="s6">"` |</span></p>
-<p class="p4"><span class="s4">| `contact` | </span><span class="s5">对象 </span><span class="s4">| </span><span class="s5">否 </span><span class="s4">| </span><span class="s5">用于履约联系的公开信息。 </span><span class="s4">| `{"phone": "13800138000"}` |</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p5"><span class="s6">## 5. </span><span class="s4">服务发现与调用接口（参考性）</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p5"><span class="s4">本章节描述了基于上述描述的</span><span class="s6">**</span><span class="s4">建议性</span><span class="s6">**</span><span class="s4">交互流程，并非强制标准。</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p4"><span class="s4">### 5.1 </span><span class="s5">服务发现</span></p>
-<p class="p5"><span class="s4">智能体通过查询</span><span class="s6">`</span><span class="s4">服务注册表</span><span class="s6">`</span><span class="s4">来发现服务。注册表应提供</span><span class="s6">API</span><span class="s4">，支持基于以下条件的过滤：</span></p>
-<p class="p4"><span class="s4">- `category` </span><span class="s5">和 </span><span class="s4">`tags`</span></p>
-<p class="p5"><span class="s6">- </span><span class="s4">地理位置（如：在某个坐标的半径内）</span></p>
-<p class="p4"><span class="s4">- `price` </span><span class="s5">范围</span></p>
-<p class="p5"><span class="s6">- `timing` </span><span class="s4">（如：当前是否在营业时间内）</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p4"><span class="s4">### 5.2 </span><span class="s5">服务调用</span></p>
-<p class="p5"><span class="s6">1.  **</span><span class="s4">订单创建</span><span class="s6">**</span><span class="s4">：智能体代表用户，按照服务描述的</span><span class="s6">`input`</span><span class="s4">结构组装参数，向提供方的接单端点发起请求。</span></p>
-<p class="p5"><span class="s6">2.  **</span><span class="s4">订单确认</span><span class="s6">**</span><span class="s4">：提供方返回订单</span><span class="s6">ID</span><span class="s4">和支付信息（如适用）。</span></p>
-<p class="p4"><span class="s4">3.  **</span><span class="s5">状态同步</span><span class="s4">**</span><span class="s5">：提供方应通过</span><span class="s4">Webhook</span><span class="s5">或状态查询</span><span class="s4">API</span><span class="s5">，向智能体同步订单状态（如：</span><span class="s4">`accepted`</span><span class="s5">、</span><span class="s4">`preparing`</span><span class="s5">、</span><span class="s4">`delivering`</span><span class="s5">、</span><span class="s4">`completed`</span><span class="s5">）。</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p4"><span class="s4">## 6. </span><span class="s5">附录</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p5"><span class="s6">### </span><span class="s4">附录</span><span class="s6">A</span><span class="s4">：完整示例 </span><span class="s6">- </span><span class="s4">咖啡外卖服务</span></p>
-<p class="p4"><span class="s4">```json</span></p>
-<p class="p4"><span class="s4">{</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"aisi_version": "0.1",</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"metadata": {</span></p>
-<p class="p4"><span class="s5">    </span><span class="s4">"service_id": "cornercoffee.example.com:latte:delivery_01",</span></p>
-<p class="p4"><span class="s5">    </span><span class="s4">"language": "zh-CN",</span></p>
-<p class="p4"><span class="s5">    </span><span class="s4">"created_at": "2024-06-01T10:00:00+08:00",</span></p>
-<p class="p4"><span class="s5">    </span><span class="s4">"updated_at": "2024-06-01T10:00:00+08:00",</span></p>
-<p class="p4"><span class="s5">    </span><span class="s4">"status": "published"</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">},</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"service_unit": {</span></p>
-<p class="p5"><span class="s4">    </span><span class="s6">"name": "</span><span class="s4">经典拿铁咖啡（外送）</span><span class="s6">",</span></p>
-<p class="p4"><span class="s5">    </span><span class="s4">"category": ["</span><span class="s5">餐饮</span><span class="s4">", "</span><span class="s5">咖啡</span><span class="s4">", "</span><span class="s5">外送</span><span class="s4">"],</span></p>
-<p class="p4"><span class="s5">    </span><span class="s4">"human_description": "</span><span class="s5">使用精品咖啡豆制作的拿铁，搭配绵密奶泡。</span><span class="s4">",</span></p>
-<p class="p4"><span class="s5">    </span><span class="s4">"tags": ["</span><span class="s5">招牌</span><span class="s4">", "</span><span class="s5">热销</span><span class="s4">"]</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">},</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"atomic_description": {</span></p>
-<p class="p4"><span class="s5">    </span><span class="s4">"input": {</span></p>
-<p class="p4"><span class="s5">      </span><span class="s4">"parameters": [</span></p>
-<p class="p5"><span class="s4">        </span><span class="s6">{</span></p>
-<p class="p5"><span class="s4">          </span><span class="s6">"name": "</span><span class="s4">杯型</span><span class="s6">",</span></p>
-<p class="p4"><span class="s5">          </span><span class="s4">"key": "size",</span></p>
-<p class="p4"><span class="s5">          </span><span class="s4">"type": "select",</span></p>
-<p class="p4"><span class="s5">          </span><span class="s4">"required": true,</span></p>
-<p class="p4"><span class="s5">          </span><span class="s4">"options": [</span></p>
-<p class="p4"><span class="s5">            </span><span class="s4">{"value": "medium", "label": "</span><span class="s5">中杯 </span><span class="s4">(350ml)", "price_effect": 0},</span></p>
-<p class="p4"><span class="s5">            </span><span class="s4">{"value": "large", "label": "</span><span class="s5">大杯 </span><span class="s4">(500ml)", "price_effect": 5}</span></p>
-<p class="p5"><span class="s4">          </span><span class="s6">]</span></p>
-<p class="p5"><span class="s4">        </span><span class="s6">},</span></p>
-<p class="p5"><span class="s4">        </span><span class="s6">{</span></p>
-<p class="p5"><span class="s4">          </span><span class="s6">"name": "</span><span class="s4">温度</span><span class="s6">",</span></p>
-<p class="p4"><span class="s5">          </span><span class="s4">"key": "temperature",</span></p>
-<p class="p4"><span class="s5">          </span><span class="s4">"type": "select",</span></p>
-<p class="p4"><span class="s5">          </span><span class="s4">"required": true,</span></p>
-<p class="p4"><span class="s5">          </span><span class="s4">"options": [</span></p>
-<p class="p4"><span class="s5">            </span><span class="s4">{"value": "hot", "label": "</span><span class="s5">热</span><span class="s4">"},</span></p>
-<p class="p4"><span class="s5">            </span><span class="s4">{"value": "iced", "label": "</span><span class="s5">冰</span><span class="s4">"}</span></p>
-<p class="p5"><span class="s4">          </span><span class="s6">]</span></p>
-<p class="p5"><span class="s4">        </span><span class="s6">}</span></p>
-<p class="p5"><span class="s4">      </span><span class="s6">],</span></p>
-<p class="p4"><span class="s5">      </span><span class="s4">"constraints": {</span></p>
-<p class="p4"><span class="s5">        </span><span class="s4">"delivery_address": {"required": true}</span></p>
-<p class="p5"><span class="s4">      </span><span class="s6">}</span></p>
-<p class="p5"><span class="s4">    </span><span class="s6">},</span></p>
-<p class="p4"><span class="s5">    </span><span class="s4">"output": {</span></p>
-<p class="p4"><span class="s5">      </span><span class="s4">"core_item": "1</span><span class="s5">杯拿铁咖啡</span><span class="s4">",</span></p>
-<p class="p4"><span class="s5">      </span><span class="s4">"specifications": {"temperature": "</span><span class="s5">根据选择</span><span class="s4">"},</span></p>
-<p class="p4"><span class="s5">      </span><span class="s4">"material_list": ["</span><span class="s5">意式浓缩咖啡</span><span class="s4">", "</span><span class="s5">蒸煮牛奶</span><span class="s4">"]</span></p>
-<p class="p5"><span class="s4">    </span><span class="s6">}</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">},</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"fulfillment_terms": {</span></p>
-<p class="p4"><span class="s5">    </span><span class="s4">"pricing": {"base_price": 30.00, "currency": "CNY"},</span></p>
-<p class="p4"><span class="s5">    </span><span class="s4">"location": {</span></p>
-<p class="p4"><span class="s5">      </span><span class="s4">"type": "delivery_circle",</span></p>
-<p class="p4"><span class="s5">      </span><span class="s4">"address": "</span><span class="s5">北京</span><span class="s4">XX</span><span class="s5">产业园</span><span class="s4">A</span><span class="s5">座</span><span class="s4">1</span><span class="s5">楼</span><span class="s4">",</span></p>
-<p class="p4"><span class="s5">      </span><span class="s4">"coordinates": {"latitude": 39.9130, "longitude": 116.3524},</span></p>
-<p class="p4"><span class="s5">      </span><span class="s4">"radius_meters": 2000</span></p>
-<p class="p5"><span class="s4">    </span><span class="s6">},</span></p>
-<p class="p4"><span class="s5">    </span><span class="s4">"timing": {</span></p>
-<p class="p4"><span class="s5">      </span><span class="s4">"preparation_duration_minutes": 8,</span></p>
-<p class="p4"><span class="s5">      </span><span class="s4">"estimated_duration_minutes": 30,</span></p>
-<p class="p4"><span class="s5">      </span><span class="s4">"business_hours": [</span></p>
-<p class="p4"><span class="s5">        </span><span class="s4">{"days": ["Mon", "Tue", "Wed", "Thu", "Fri"], "open": "08:00", "close": "19:00"},</span></p>
-<p class="p4"><span class="s5">        </span><span class="s4">{"days": ["Sat", "Sun"], "open": "09:00", "close": "18:00"}</span></p>
-<p class="p5"><span class="s4">      </span><span class="s6">]</span></p>
-<p class="p5"><span class="s4">    </span><span class="s6">}</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">},</span></p>
-<p class="p4"><span class="s5">  </span><span class="s4">"provider_info": {</span></p>
-<p class="p4"><span class="s5">    </span><span class="s4">"id": "corner_coffee_finpark",</span></p>
-<p class="p5"><span class="s4">    </span><span class="s6">"name": "</span><span class="s4">转角咖啡馆（产业园店）</span><span class="s6">",</span></p>
-<p class="p4"><span class="s5">    </span><span class="s4">"contact": {"phone": "13912345678"}</span></p>
-<p class="p5"><span class="s4">  </span><span class="s6">}</span></p>
-<p class="p4"><span class="s4">}</span></p>
-<p class="p4"><span class="s4">```</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p5"><span class="s6">### </span><span class="s4">附录</span><span class="s6">B</span><span class="s4">：标准化字段格式</span></p>
-<p class="p4"><span class="s4">- **</span><span class="s5">日期与时间</span><span class="s4">**</span><span class="s5">：必须使用 </span><span class="s4">[ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) </span><span class="s5">格式。</span></p>
-<p class="p4"><span class="s4">- **</span><span class="s5">地理坐标</span><span class="s4">**</span><span class="s5">：采用</span><span class="s4">WGS-84</span><span class="s5">坐标系，</span><span class="s4">`longitude`</span><span class="s5">（经度）在前，</span><span class="s4">`latitude`</span><span class="s5">（纬度）在后。</span></p>
-<p class="p4"><span class="s4">- **</span><span class="s5">货币代码</span><span class="s4">**</span><span class="s5">：采用 </span><span class="s4">[ISO 4217](https://www.iso.org/iso-4217-currency-codes.html) </span><span class="s5">三位字母代码。</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p5"><span class="s6">### </span><span class="s4">附录</span><span class="s6">C</span><span class="s4">：版本历史</span></p>
-<p class="p5"><span class="s6">- **v0.1 Alpha (</span><span class="s4">当前版本</span><span class="s6">)**</span><span class="s4">：初始草案，定义核心数据架构与原子化描述原则。</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p4"><span class="s4">---</span></p>
-<p class="p5"><span class="s6">**</span><span class="s4">版权与许可声明</span><span class="s6">**</span></p>
-<p class="p4"><span class="s5">本文档在 </span><span class="s4">[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) </span><span class="s5">许可下发布，允许在署名和相同方式共享的前提下自由使用。</span></p>
-<p class="p5"><span class="s4"> </span></p>
-<p class="p5"><span class="s6">**</span><span class="s4">讨论与贡献</span><span class="s6">**</span></p>
-<p class="p5"><span class="s4">欢迎通过 </span><span class="s6">[GitHub Issues] </span><span class="s4">或 </span><span class="s6">[</span><span class="s4">社区论坛</span><span class="s6">] </span><span class="s4">就本协议提出建议、发现问题或参与讨论。</span></p>
-<p class="p5"><span class="s4">（</span><span class="s6">*</span><span class="s4">https://aisi-tanchong.github.io</span><span class="s6">*</span><span class="s4">）</span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/article&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/main&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- <span class="s1">第三部分：</span>JavaScript<span class="s1">交互脚本</span> --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>// <span class="s1">导航点击与高亮逻辑</span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.querySelectorAll('.sidebar nav a').forEach(link =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>link.addEventListener('click', function(e) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>if(this.hash) {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>e.preventDefault();</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>const targetId = this.hash.substring(1);</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>const targetElement = document.getElementById(targetId) || document.querySelector(`[name='${targetId}']`);</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>if(targetElement) {</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>window.scrollTo({ top: targetElement.offsetTop - 20, behavior: 'smooth' });</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>});</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p1"><span class="Apple-converted-space">        </span>// <span class="s1">滚动时自动高亮当前章节</span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>window.addEventListener('scroll', () =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const sections = document.querySelectorAll('.markdown-body h1, .markdown-body h2');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>let currentSectionId = '';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>sections.forEach(section =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>const sectionTop = section.offsetTop;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>if(window.scrollY &gt;= sectionTop - 100) {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>currentSectionId = section.getAttribute('id');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>});</p>
-<p class="p1"><span class="Apple-converted-space">            </span>document.querySelectorAll('.sidebar nav a').forEach(link =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>link.classList.remove('active');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>if(link.getAttribute('href') === `#${currentSectionId}`) {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>link.classList.add('active');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>});</p>
-<p class="p1"><span class="Apple-converted-space">        </span>});</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+    <header>
+        <h1>AISI服务描述协议（Atomized Intelligent Service Interface）</h1>
+        <div class="version-info">
+            <strong>版本：</strong> 0.1 Alpha（草稿）
+        </div>
+        <div class="meta-info">
+            <p><strong>状态：</strong> 草案，用于公开讨论</p>
+            <p><strong>作者：</strong> [你的姓名/组织]</p>
+            <p><strong>发布日期：</strong> 2024年6月</p>
+        </div>
+    </header>
+
+    <main>
+        <section id="section-1">
+            <h2>1. 摘要</h2>
+            <p>AISI（Atomized Intelligent Service Interface，原子化智能服务接口）协议旨在为人工智能体（AI Agent）与真实世界服务之间，建立一套机器可读、语义无歧义的标准化描述与交互接口。其核心目标是将任意复杂的商业或生活服务，拆解、描述为最小可执行单元——"原子服务"，使智能体能够像人类理解菜单一样，精准发现、推荐并调用这些服务。</p>
+            <p>本协议定义了服务提供方如何描述其"原子服务"，以及智能体如何发现、理解与调用这些服务的基础数据框架与交互范式。它不依赖任何特定平台，旨在成为开放、中立的服务互联网"基础语法"。</p>
+        </section>
+
+        <section id="section-2">
+            <h2>2. 愿景与原则</h2>
+            
+            <h3>2.1 愿景</h3>
+            <p>构建一个以用户意图为中心、由智能体作为主要交互界面的下一代服务互联网。在这个网络中，服务如同信息一样自由、高效地流动，用户通过自然语言即可无缝获取全球服务。</p>
+            
+            <h3>2.2 核心原则</h3>
+            <ol>
+                <li><strong>机器可读性优先</strong>：描述格式的首要目标是确保AI能无歧义地理解。</li>
+                <li><strong>原子化</strong>：服务应被描述为最小、不可再分且可独立交付的单元。</li>
+                <li><strong>语义标准化</strong>：对关键概念（如时间、地点、价格）采用公认的标准格式。</li>
+                <li><strong>平台中立与开放性</strong>：协议本身不绑定任何特定商业平台，鼓励广泛实现。</li>
+                <li><strong>渐进演化</strong>：协议版本应保持向后兼容，并通过社区共识持续演进。</li>
+            </ol>
+        </section>
+
+        <section id="section-3">
+            <h2>3. 核心概念定义</h2>
+            <div class="definition-list">
+                <dl>
+                    <dt>原子服务 (Atomic Service)</dt>
+                    <dd>能够被独立提供、交付并完成一次完整价值交换的最小服务单元。例如："一杯外送至指定地址的350毫升冰美式咖啡"是一个原子服务，而"开一家咖啡馆"不是。</dd>
+                    
+                    <dt>服务提供方 (Provider)</dt>
+                    <dd>发布并履行原子服务的实体或个人。</dd>
+                    
+                    <dt>智能体 (AI Agent)</dt>
+                    <dd>代表用户，能够理解意图、发现并调用原子服务的软件实体。</dd>
+                    
+                    <dt>服务描述 (Service Description)</dt>
+                    <dd>按照本协议格式编写的，对一个原子服务的完整定义文件。</dd>
+                    
+                    <dt>服务注册表 (Service Registry)</dt>
+                    <dd>存储并可被查询的服务描述集合，可以是中心化索引或去中心化网络。</dd>
+                </dl>
+            </div>
+        </section>
+
+        <section id="section-4">
+            <h2>4. 协议数据架构</h2>
+            <p>一个完整的AISI服务描述是一个JSON对象，其根结构如下：</p>
+            
+            <div class="json-code">
+                <pre>{
+  <span class="json-key">"aisi_version"</span>: <span class="json-string">"0.1"</span>,
+  <span class="json-key">"metadata"</span>: {...},
+  <span class="json-key">"service_unit"</span>: {...},
+  <span class="json-key">"atomic_description"</span>: {...},
+  <span class="json-key">"fulfillment_terms"</span>: {...},
+  <span class="json-key">"provider_info"</span>: {...}
+}</pre>
+            </div>
+
+            <h3>4.1 metadata - 元数据</h3>
+            <p>用于标识和追踪服务描述本身。</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段</th>
+                        <th>类型</th>
+                        <th>必填</th>
+                        <th>描述</th>
+                        <th>示例</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>service_id</td>
+                        <td>字符串</td>
+                        <td>是</td>
+                        <td>服务的全局唯一标识符。推荐格式：provider_domain:service_type:unique_id</td>
+                        <td>"coffee.example.com:latte:basic_01"</td>
+                    </tr>
+                    <tr>
+                        <td>language</td>
+                        <td>字符串</td>
+                        <td>是</td>
+                        <td>描述文本使用的语言代码。</td>
+                        <td>"zh-CN"</td>
+                    </tr>
+                    <tr>
+                        <td>created_at</td>
+                        <td>字符串</td>
+                        <td>是</td>
+                        <td>描述创建时间（ISO 8601）。</td>
+                        <td>"2024-06-01T10:00:00+08:00"</td>
+                    </tr>
+                    <tr>
+                        <td>updated_at</td>
+                        <td>字符串</td>
+                        <td>是</td>
+                        <td>描述最后更新时间（ISO 8601）。</td>
+                        <td>"2024-06-10T15:30:00+08:00"</td>
+                    </tr>
+                    <tr>
+                        <td>status</td>
+                        <td>字符串</td>
+                        <td>是</td>
+                        <td>服务状态。枚举："draft", "published", "suspended", "archived"</td>
+                        <td>"published"</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>4.2 service_unit - 服务单元</h3>
+            <p>对人类和智能体展示的核心信息。</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段</th>
+                        <th>类型</th>
+                        <th>必填</th>
+                        <th>描述</th>
+                        <th>示例</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>name</td>
+                        <td>字符串</td>
+                        <td>是</td>
+                        <td>服务的简洁、人类可读名称。</td>
+                        <td>"经典拿铁咖啡（外送）"</td>
+                    </tr>
+                    <tr>
+                        <td>category</td>
+                        <td>字符串数组</td>
+                        <td>是</td>
+                        <td>服务分类标签，用于高效检索。</td>
+                        <td>["餐饮", "咖啡", "外送"]</td>
+                    </tr>
+                    <tr>
+                        <td>human_description</td>
+                        <td>字符串</td>
+                        <td>是</td>
+                        <td>面向人类的详细服务说明。</td>
+                        <td>"一款由意式浓缩咖啡与蒸煮牛奶调和而成的经典咖啡饮品，口感顺滑。"</td>
+                    </tr>
+                    <tr>
+                        <td>tags</td>
+                        <td>字符串数组</td>
+                        <td>否</td>
+                        <td>额外的关键词标签。</td>
+                        <td>["新品", "招牌", "提神"]</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>4.3 atomic_description - 原子化描述（协议核心）</h3>
+            <p>从机器视角，无歧义地定义服务的"输入"与"输出"。</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段</th>
+                        <th>类型</th>
+                        <th>必填</th>
+                        <th>描述</th>
+                        <th>示例</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>input</td>
+                        <td>对象</td>
+                        <td>是</td>
+                        <td>执行此服务所需的输入参数。</td>
+                        <td>见下文 input 结构详述。</td>
+                    </tr>
+                    <tr>
+                        <td>output</td>
+                        <td>对象</td>
+                        <td>是</td>
+                        <td>服务方承诺交付的确定结果。</td>
+                        <td>见下文 output 结构详述。</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>4.3.1 input 对象结构</h4>
+            <p>定义用户或智能体需要提供什么。</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段</th>
+                        <th>类型</th>
+                        <th>必填</th>
+                        <th>描述</th>
+                        <th>示例</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>parameters</td>
+                        <td>数组</td>
+                        <td>否</td>
+                        <td>可选的定制化参数列表。</td>
+                        <td>见下文参数表示例。</td>
+                    </tr>
+                    <tr>
+                        <td>constraints</td>
+                        <td>对象</td>
+                        <td>否</td>
+                        <td>执行服务的必要前提条件。</td>
+                        <td>{"delivery_address": {"required": true}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p><code>parameters</code> 数组中的参数项示例：</p>
+            
+            <div class="json-code">
+                <pre>{
+  <span class="json-key">"name"</span>: <span class="json-string">"杯型"</span>,
+  <span class="json-key">"key"</span>: <span class="json-string">"size"</span>,
+  <span class="json-key">"type"</span>: <span class="json-string">"select"</span>,
+  <span class="json-key">"required"</span>: <span class="json-boolean">true</span>,
+  <span class="json-key">"options"</span>: [
+    {<span class="json-key">"value"</span>: <span class="json-string">"medium"</span>, <span class="json-key">"label"</span>: <span class="json-string">"中杯 (350ml)"</span>, <span class="json-key">"price_effect"</span>: <span class="json-number">0</span>},
+    {<span class="json-key">"value"</span>: <span class="json-string">"large"</span>, <span class="json-key">"label"</span>: <span class="json-string">"大杯 (500ml)"</span>, <span class="json-key">"price_effect"</span>: <span class="json-number">5</span>}
+  ]
+}</pre>
+            </div>
+
+            <h4>4.3.2 output 对象结构</h4>
+            <p>定义服务方承诺交付什么。</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段</th>
+                        <th>类型</th>
+                        <th>必填</th>
+                        <th>描述</th>
+                        <th>示例</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>core_item</td>
+                        <td>字符串</td>
+                        <td>是</td>
+                        <td>交付物的最核心描述。</td>
+                        <td>"1杯拿铁咖啡"</td>
+                    </tr>
+                    <tr>
+                        <td>specifications</td>
+                        <td>对象</td>
+                        <td>否</td>
+                        <td>具体的规格属性。</td>
+                        <td>{"volume_ml": 350, "temperature": "热"}</td>
+                    </tr>
+                    <tr>
+                        <td>material_list</td>
+                        <td>字符串数组</td>
+                        <td>否</td>
+                        <td>主要材料或成分列表。</td>
+                        <td>["意式浓缩咖啡", "蒸煮牛奶"]</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>4.4 fulfillment_terms - 履约条款</h3>
+            <p>定义服务如何、何时、何地被交付。</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段</th>
+                        <th>类型</th>
+                        <th>必填</th>
+                        <th>描述</th>
+                        <th>示例</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>pricing</td>
+                        <td>对象</td>
+                        <td>是</td>
+                        <td>价格信息。</td>
+                        <td>{"base_price": 30.00, "currency": "CNY"}</td>
+                    </tr>
+                    <tr>
+                        <td>location</td>
+                        <td>对象</td>
+                        <td>是</td>
+                        <td>服务提供的地理范围。</td>
+                        <td>见下文位置对象示例。</td>
+                    </tr>
+                    <tr>
+                        <td>timing</td>
+                        <td>对象</td>
+                        <td>是</td>
+                        <td>服务时间相关信息。</td>
+                        <td>见下文时间对象示例。</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>位置对象示例：</p>
+            
+            <div class="json-code">
+                <pre>{
+  <span class="json-key">"type"</span>: <span class="json-string">"delivery_circle"</span>,
+  <span class="json-key">"address"</span>: <span class="json-string">"北京市海淀区XX路XX号"</span>,
+  <span class="json-key">"coordinates"</span>: {<span class="json-key">"latitude"</span>: <span class="json-number">39.9042</span>, <span class="json-key">"longitude"</span>: <span class="json-number">116.4074</span>},
+  <span class="json-key">"radius_meters"</span>: <span class="json-number">1500</span>
+}</pre>
+            </div>
+
+            <p>时间对象示例：</p>
+            
+            <div class="json-code">
+                <pre>{
+  <span class="json-key">"preparation_duration_minutes"</span>: <span class="json-number">5</span>,
+  <span class="json-key">"estimated_duration_minutes"</span>: <span class="json-number">25</span>,
+  <span class="json-key">"business_hours"</span>: [{<span class="json-key">"days"</span>: [<span class="json-string">"Mon"</span>, <span class="json-string">"Tue"</span>, <span class="json-string">"Wed"</span>, <span class="json-string">"Thu"</span>, <span class="json-string">"Fri"</span>], <span class="json-key">"open"</span>: <span class="json-string">"08:00"</span>, <span class="json-key">"close"</span>: <span class="json-string">"20:00"</span>}]
+}</pre>
+            </div>
+
+            <h3>4.5 provider_info - 提供方信息</h3>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段</th>
+                        <th>类型</th>
+                        <th>必填</th>
+                        <th>描述</th>
+                        <th>示例</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>id</td>
+                        <td>字符串</td>
+                        <td>是</td>
+                        <td>提供方唯一标识。</td>
+                        <td>"starbucks_financial_park"</td>
+                    </tr>
+                    <tr>
+                        <td>name</td>
+                        <td>字符串</td>
+                        <td>是</td>
+                        <td>提供方公开名称。</td>
+                        <td>"星巴克（金融街店）"</td>
+                    </tr>
+                    <tr>
+                        <td>contact</td>
+                        <td>对象</td>
+                        <td>否</td>
+                        <td>用于履约联系的公开信息。</td>
+                        <td>{"phone": "13800138000"}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="section-5">
+            <h2>5. 服务发现与调用接口（参考性）</h2>
+            <div class="note">
+                <p><strong>注意：</strong>本章节描述了基于上述描述的建议性交互流程，并非强制标准。</p>
+            </div>
+            
+            <h3>5.1 服务发现</h3>
+            <p>智能体通过查询服务注册表来发现服务。注册表应提供API，支持基于以下条件的过滤：</p>
+            <ul>
+                <li><code>category</code> 和 <code>tags</code></li>
+                <li>地理位置（如：在某个坐标的半径内）</li>
+                <li><code>price</code> 范围</li>
+                <li><code>timing</code> （如：当前是否在营业时间内）</li>
+            </ul>
+            
+            <h3>5.2 服务调用</h3>
+            <ol>
+                <li><strong>订单创建</strong>：智能体代表用户，按照服务描述的<code>input</code>结构组装参数，向提供方的接单端点发起请求。</li>
+                <li><strong>订单确认</strong>：提供方返回订单ID和支付信息（如适用）。</li>
+                <li><strong>状态同步</strong>：提供方应通过Webhook或状态查询API，向智能体同步订单状态（如：<code>accepted</code>、<code>preparing</code>、<code>delivering</code>、<code>completed</code>）。</li>
+            </ol>
+        </section>
+
+        <section id="section-6">
+            <h2>6. 附录</h2>
+            
+            <div class="appendix">
+                <h3>附录A：完整示例 - 咖啡外卖服务</h3>
+                
+                <div class="json-code">
+                    <pre>{
+  <span class="json-key">"aisi_version"</span>: <span class="json-string">"0.1"</span>,
+  <span class="json-key">"metadata"</span>: {
+    <span class="json-key">"service_id"</span>: <span class="json-string">"cornercoffee.example.com:latte:delivery_01"</span>,
+    <span class="json-key">"language"</span>: <span class="json-string">"zh-CN"</span>,
+    <span class="json-key">"created_at"</span>: <span class="json-string">"2024-06-01T10:00:00+08:00"</span>,
+    <span class="json-key">"updated_at"</span>: <span class="json-string">"2024-06-01T10:00:00+08:00"</span>,
+    <span class="json-key">"status"</span>: <span class="json-string">"published"</span>
+  },
+  <span class="json-key">"service_unit"</span>: {
+    <span class="json-key">"name"</span>: <span class="json-string">"经典拿铁咖啡（外送）"</span>,
+    <span class="json-key">"category"</span>: [<span class="json-string">"餐饮"</span>, <span class="json-string">"咖啡"</span>, <span class="json-string">"外送"</span>],
+    <span class="json-key">"human_description"</span>: <span class="json-string">"使用精品咖啡豆制作的拿铁，搭配绵密奶泡。"</span>,
+    <span class="json-key">"tags"</span>: [<span class="json-string">"招牌"</span>, <span class="json-string">"热销"</span>]
+  },
+  <span class="json-key">"atomic_description"</span>: {
+    <span class="json-key">"input"</span>: {
+      <span class="json-key">"parameters"</span>: [
+        {
+          <span class="json-key">"name"</span>: <span class="json-string">"杯型"</span>,
+          <span class="json-key">"key"</span>: <span class="json-string">"size"</span>,
+          <span class="json-key">"type"</span>: <span class="json-string">"select"</span>,
+          <span class="json-key">"required"</span>: <span class="json-boolean">true</span>,
+          <span class="json-key">"options"</span>: [
+            {<span class="json-key">"value"</span>: <span class="json-string">"medium"</span>, <span class="json-key">"label"</span>: <span class="json-string">"中杯 (350ml)"</span>, <span class="json-key">"price_effect"</span>: <span class="json-number">0</span>},
+            {<span class="json-key">"value"</span>: <span class="json-string">"large"</span>, <span class="json-key">"label"</span>: <span class="json-string">"大杯 (500ml)"</span>, <span class="json-key">"price_effect"</span>: <span class="json-number">5</span>}
+          ]
+        },
+        {
+          <span class="json-key">"name"</span>: <span class="json-string">"温度"</span>,
+          <span class="json-key">"key"</span>: <span class="json-string">"temperature"</span>,
+          <span class="json-key">"type"</span>: <span class="json-string">"select"</span>,
+          <span class="json-key">"required"</span>: <span class="json-boolean">true</span>,
+          <span class="json-key">"options"</span>: [
+            {<span class="json-key">"value"</span>: <span class="json-string">"hot"</span>, <span class="json-key">"label"</span>: <span class="json-string">"热"</span>},
+            {<span class="json-key">"value"</span>: <span class="json-string">"iced"</span>, <span class="json-key">"label"</span>: <span class="json-string">"冰"</span>}
+          ]
+        }
+      ],
+      <span class="json-key">"constraints"</span>: {
+        <span class="json-key">"delivery_address"</span>: {<span class="json-key">"required"</span>: <span class="json-boolean">true</span>}
+      }
+    },
+    <span class="json-key">"output"</span>: {
+      <span class="json-key">"core_item"</span>: <span class="json-string">"1杯拿铁咖啡"</span>,
+      <span class="json-key">"specifications"</span>: {<span class="json-key">"temperature"</span>: <span class="json-string">"根据选择"</span>},
+      <span class="json-key">"material_list"</span>: [<span class="json-string">"意式浓缩咖啡"</span>, <span class="json-string">"蒸煮牛奶"</span>]
+    }
+  },
+  <span class="json-key">"fulfillment_terms"</span>: {
+    <span class="json-key">"pricing"</span>: {<span class="json-key">"base_price"</span>: <span class="json-number">30.00</span>, <span class="json-key">"currency"</span>: <span class="json-string">"CNY"</span>},
+    <span class="json-key">"location"</span>: {
+      <span class="json-key">"type"</span>: <span class="json-string">"delivery_circle"</span>,
+      <span class="json-key">"address"</span>: <span class="json-string">"北京金融产业园A座1楼"</span>,
+      <span class="json-key">"coordinates"</span>: {<span class="json-key">"latitude"</span>: <span class="json-number">39.9130</span>, <span class="json-key">"longitude"</span>: <span class="json-number">116.3524</span>},
+      <span class="json-key">"radius_meters"</span>: <span class="json-number">2000</span>
+    },
+    <span class="json-key">"timing"</span>: {
+      <span class="json-key">"preparation_duration_minutes"</span>: <span class="json-number">8</span>,
+      <span class="json-key">"estimated_duration_minutes"</span>: <span class="json-number">30</span>,
+      <span class="json-key">"business_hours"</span>: [
+        {<span class="json-key">"days"</span>: [<span class="json-string">"Mon"</span>, <span class="json-string">"Tue"</span>, <span class="json-string">"Wed"</span>, <span class="json-string">"Thu"</span>, <span class="json-string">"Fri"</span>], <span class="json-key">"open"</span>: <span class="json-string">"08:00"</span>, <span class="json-key">"close"</span>: <span class="json-string">"19:00"</span>},
+        {<span class="json-key">"days"</span>: [<span class="json-string">"Sat"</span>, <span class="json-string">"Sun"</span>], <span class="json-key">"open"</span>: <span class="json-string">"09:00"</span>, <span class="json-key">"close"</span>: <span class="json-string">"18:00"</span>}
+      ]
+    }
+  },
+  <span class="json-key">"provider_info"</span>: {
+    <span class="json-key">"id"</span>: <span class="json-string">"corner_coffee_finpark"</span>,
+    <span class="json-key">"name"</span>: <span class="json-string">"转角咖啡馆（产业园店）"</span>,
+    <span class="json-key">"contact"</span>: {<span class="json-key">"phone"</span>: <span class="json-string">"13912345678"</span>}
+  }
+}</pre>
+                </div>
+            </div>
+            
+            <div class="appendix">
+                <h3>附录B：标准化字段格式</h3>
+                <ul>
+                    <li><strong>日期与时间</strong>：必须使用 ISO 8601 格式。</li>
+                    <li><strong>地理坐标</strong>：采用WGS-84坐标系，<code>longitude</code>（经度）在前，<code>latitude</code>（纬度）在后。</li>
+                    <li><strong>货币代码</strong>：采用 ISO 4217 三位字母代码。</li>
+                </ul>
+            </div>
+            
+            <div class="appendix">
+                <h3>附录C：版本历史</h3>
+                <ul>
+                    <li><strong>v0.1 Alpha (当前版本)</strong>：初始草案，定义核心数据架构与原子化描述原则。</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <section id="copyright">
+            <h3>版权与许可声明</h3>
+            <p>本文档在 CC BY-SA 4.0 许可下发布，允许在署名和相同方式共享的前提下自由使用。</p>
+        </section>
+        
+        <section id="discussion">
+            <h3>讨论与贡献</h3>
+            <p>欢迎通过 [GitHub Issues] 或 [社区论坛] 就本协议提出建议、发现问题或参与讨论。</p>
+            <p><em>（注：此处需填入你后续创建的实际链接）</em></p>
+        </section>
+    </footer>
 </body>
 </html>
